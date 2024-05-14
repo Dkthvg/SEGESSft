@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEGES.Shared.Entities;
 using Newtonsoft.Json;
+using SEGES.Shared.Enums;
+using SEGES.Backend.UnitsOfWork.Interfaces;
 
 
 namespace SEGES.Backend
@@ -9,9 +11,11 @@ namespace SEGES.Backend
     {
         private readonly DataContext _context;
 
-        public SeedDb(DataContext context)
+        private readonly IUsersUnitOfWork _usersUnitOfWork;
+        public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork)
         {
             _context = context;
+            _usersUnitOfWork = usersUnitOfWork;
         }
 
         public string statusNameList = @"[
@@ -36,15 +40,80 @@ namespace SEGES.Backend
             await CheckCountriesAsync();
             await CheckStatesAsync();
             await CheckCitiesAsync();
+            await CheckRolesAsync();
+            await CheckUserAsync("1010", "admin", "prueba", "admin@yopmail.com", "555555", "direcion prueba", UserType.Admin);
             await CheckDocTraceabilityType();
             await CheckHUApprobalStatus();
             await CheckHUPriority();
             await CheckHUPublicationStatus();
             await CheckHUStatus();
             await CheckProjectStatus();
-      
+            // await CheckRoles();
         }
 
+        private async Task CheckRolesAsync()
+        {
+            await _usersUnitOfWork.CheckRoleAsync(UserType.Admin.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.User.ToString());
+        }
+        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, UserType userType)
+        {
+            var user = await _usersUnitOfWork.GetUserAsync(email);
+            if (user == null)
+            {
+                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Bello");
+                city ??= await _context.Cities.FirstOrDefaultAsync();
+
+                user = new User
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Email = email,
+                    UserName = email,
+                    PhoneNumber = phone,
+                    Address = address,
+                    Document = document,
+                    City = city,
+                    UserType = userType,
+                };
+
+                await _usersUnitOfWork.AddUserAsync(user, "123456");
+                await _usersUnitOfWork.AddUserToRoleAsync(user, userType.ToString());
+
+                var token = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
+                await _usersUnitOfWork.ConfirmEmailAsync(user, token);
+            }
+
+            return user;
+        }
+
+
+        /*
+        private async Task CheckRoles()
+        {
+            if (!_context.Roles.Any())
+            {
+                //_context.ResetTableIDs("Roles");
+                _context.Roles.Add(new Role { RoleName = "Administrador del sistema" });
+                _context.Roles.Add(new Role { RoleName = "Gerente de proyecto" });
+                _context.Roles.Add(new Role { RoleName = "Líder de equipo" });
+                _context.Roles.Add(new Role { RoleName = "Desarrollador" });
+                _context.Roles.Add(new Role { RoleName = "Tester/QA" });
+                _context.Roles.Add(new Role { RoleName = "Analista de negocio" });
+                _context.Roles.Add(new Role { RoleName = "Diseñador UX/UI" });
+                _context.Roles.Add(new Role { RoleName = "Cliente" });
+                _context.Roles.Add(new Role { RoleName = "Interesado" });
+                _context.Roles.Add(new Role { RoleName = "Consultor" });
+                _context.Roles.Add(new Role { RoleName = "Coordinador de proyecto" });
+                _context.Roles.Add(new Role { RoleName = "Scrum Master" });
+                _context.Roles.Add(new Role { RoleName = "Product Owner" });
+                _context.Roles.Add(new Role { RoleName = "Analista de datos" });
+                _context.Roles.Add(new Role { RoleName = "Arquitecto de software" });
+                //SaveDBChanges();
+                _context.SaveChanges();
+            }
+        }
+        */
         private async Task CheckProjectStatus()
         {
             if (!_context.ProjectStatuses.Any())
