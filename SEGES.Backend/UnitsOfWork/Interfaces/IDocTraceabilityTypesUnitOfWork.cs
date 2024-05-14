@@ -10,7 +10,6 @@ namespace SEGES.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<IEnumerable<DocTraceabilityType>>> GetAsync();
 
         Task<ActionResponse<IEnumerable<DocTraceabilityType>>> GetAsync(PaginationDTO pagination);
-
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
     }
