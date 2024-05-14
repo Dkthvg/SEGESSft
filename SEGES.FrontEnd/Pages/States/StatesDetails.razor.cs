@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Components;
 using SEGES.Shared.Entities;
 using SEGES.FrontEnd.Repositories;
 using System.Net;
+using Blazored.Modal.Services;
+using Blazored.Modal;
+using SEGES.FrontEnd.Pages.Cities;
 
 namespace SEGES.FrontEnd.Pages.States
 {
@@ -21,10 +24,30 @@ namespace SEGES.FrontEnd.Pages.States
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<CitiesEdit>(string.Empty, new ModalParameters().Add("CityId", id));
+            }
+            else
+            {
+                modalReference = Modal.Show<CitiesCreate>(string.Empty, new ModalParameters().Add("StateId", StateId));
+            }
+
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
 
         private async Task SelectedRecordsNumberAsync(int recordsnumber)

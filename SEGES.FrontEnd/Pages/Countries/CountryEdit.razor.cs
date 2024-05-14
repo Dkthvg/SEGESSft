@@ -1,4 +1,8 @@
+using Azure;
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
 using SEGES.FrontEnd.Shared;
@@ -8,31 +12,33 @@ using System.Net;
 
 namespace SEGES.FrontEnd.Pages.Countries
 {
+    [Authorize(Roles = "Admin")]
     public partial class CountryEdit
     {
-
+        private State? state;
         private Country? country;
         private FormWithName<Country>? countryForm;
 
-        [Inject] private IRepository repository { get; set; } = null!;
-        [Inject] private SweetAlertService sweetAlertService { get; set; } = null!;
-        [Inject] private NavigationManager navigationManager { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
+        [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         [EditorRequired, Parameter] public int Id { get; set; }
 
         protected override async Task OnParametersSetAsync()
         {
-            var responseHttp = await repository.GetAsync<Country>($"/api/countries/{Id}");
+            var responseHttp = await Repository.GetAsync<Country>($"/api/countries/{Id}");
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
-                    navigationManager.NavigateTo("/countries");
+                    NavigationManager.NavigateTo("/countries");
                 }
                 else
                 {
                     var messsage = await responseHttp.GetErrorMessageAsync();
-                    await sweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
+                    await SweetAlertService.FireAsync("Error", messsage, SweetAlertIcon.Error);
                 }
             }
             else
@@ -43,16 +49,19 @@ namespace SEGES.FrontEnd.Pages.Countries
 
         private async Task EditAsync()
         {
-            var responseHttp = await repository.PutAsync("/api/countries", country);
+            var responseHttp = await Repository.PutAsync("/api/countries", country);
+
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
-                await sweetAlertService.FireAsync("Error", message);
+                await SweetAlertService.FireAsync("Error", message);
                 return;
             }
 
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
-            var toast = sweetAlertService.Mixin(new SweetAlertOptions
+
+            var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
                 Position = SweetAlertPosition.BottomEnd,
@@ -65,8 +74,10 @@ namespace SEGES.FrontEnd.Pages.Countries
         private void Return()
         {
             countryForm!.FormPostedSuccessfully = true;
-            navigationManager.NavigateTo("/countries");
+            NavigationManager.NavigateTo("/countries");
+
         }
+
 
     }
 }

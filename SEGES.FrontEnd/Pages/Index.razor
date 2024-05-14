@@ -2,6 +2,16 @@
 
 <PageTitle>Index</PageTitle>
 
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <p> @context.User.Identity?.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        @* <p>No estas autorizado</p>*@
+    </NotAuthorized>
+</AuthorizeView>
+
+
 <h1 class="display-4">Bienvenido a nuestro Software de Gestión de Proyectos </h1>
 <h1 class="display-3" style="accent-color">SEGES</h1>
 

@@ -3,10 +3,14 @@ using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
 using System.Net;
 using SEGES.Shared.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Blazored.Modal.Services;
+using Blazored.Modal;
 
 
 namespace SEGES.FrontEnd.Pages.Countries
 {
+    [Authorize(Roles = "Admin")]
     public partial class CountriesIndex
     {
         private int currentPage = 1;
@@ -19,6 +23,8 @@ namespace SEGES.FrontEnd.Pages.Countries
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
+
 
         public List<Country>? Countries { get; set; }
 
@@ -26,6 +32,26 @@ namespace SEGES.FrontEnd.Pages.Countries
         {
             await LoadAsync();
         }
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<CountryEdit>(string.Empty, new ModalParameters().Add("Id", id));
+            }
+            else
+            {
+                modalReference = Modal.Show<CountryCreate>();
+            }
+
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
+        }
+
 
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
