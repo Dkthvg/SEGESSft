@@ -81,5 +81,11 @@ namespace SEGES.FrontEnd.Repositories
             var response = await responseHttp.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(response, _jsonDefaultOptions)!;
         }
+
+        public async Task<HttpResponseWrapper<object>> GetAsync(string url)
+        {
+            var responseHTTP = await _httpClient.GetAsync(url);
+            return new HttpResponseWrapper<object>(null, !responseHTTP.IsSuccessStatusCode, responseHTTP);
+        }
     }
 }
