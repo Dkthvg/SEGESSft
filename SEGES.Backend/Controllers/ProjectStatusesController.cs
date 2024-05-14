@@ -3,19 +3,20 @@ using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Backend.UnitsOfWork.Interfaces;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
+using System.Threading.Tasks;
 
 namespace SEGES.Backend.Controllers
 {
-    
-        [ApiController]
-        [Route("api/[Controller]")]
-        public class ProjectStatusesController : GenericController<ProjectStatus>
+
+    [ApiController]
+    [Route("api/[Controller]")]
+    public class ProjectStatusesController : GenericController<ProjectStatus>
     {
         private readonly IProjectStatusesUnitOfWork _projectStatusesUnitOfWork;
         public ProjectStatusesController(IGenericUnitOfWork<ProjectStatus> unitOfWork, IProjectStatusesUnitOfWork projectStatusesUnitOfWork) : base(unitOfWork)
-            {
-            _projectStatusesUnitOfWork= projectStatusesUnitOfWork;
-            }
+        {
+            _projectStatusesUnitOfWork = projectStatusesUnitOfWork;
+        }
 
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()

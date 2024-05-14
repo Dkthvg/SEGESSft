@@ -1,4 +1,5 @@
 ﻿using SEGES.Shared.DTOs;
+using System.Linq;
 namespace SEGES.Backend.Helpers
 {
     public static class QueryableExtension
