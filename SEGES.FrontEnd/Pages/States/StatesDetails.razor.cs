@@ -149,7 +149,7 @@ namespace SEGES.FrontEnd.Pages.States
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
-                    NavigationManager.NavigateTo("/countries");
+                    NavigationManager.NavigateTo("/states");
                     return false;
                 }
 

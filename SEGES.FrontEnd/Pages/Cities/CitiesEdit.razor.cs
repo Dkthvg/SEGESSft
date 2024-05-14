@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
@@ -17,6 +19,7 @@ namespace SEGES.FrontEnd.Pages.Cities
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         [Parameter] public int CityId { get; set; }
 
@@ -45,6 +48,7 @@ namespace SEGES.FrontEnd.Pages.Cities
                 await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
                 return;
             }
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
