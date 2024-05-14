@@ -1,0 +1,41 @@
+﻿@if (imageBase64 is not null)
+{
+    <div>
+        <label>@Label</label>
+        <div>
+            <InputFile OnChange="OnChange" accept=".jpg,.jpeg,.png" />
+        </div>
+    </div>
+
+    <div>
+        <div style="margin: 10px">
+            <img src="data:image/jpeg;base64, @imageBase64" style="width:200px" />
+        </div>
+    </div>
+}
+else if (ImageURL is not null)
+{
+    <div>
+        <label>@Label</label>
+        <div>
+            <InputFile OnChange="OnChange" accept=".jpg,.jpeg,.png" />
+        </div>
+    </div>
+
+    <div>
+        <div style="margin: 10px">
+            <img src="@ImageURL" style="width:200px" />
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <label>@Label</label>
+        <div>
+            <InputFile OnChange="OnChange" accept=".jpg,.jpeg,.png" />
+        </div>
+    </div>
+}
+
+
