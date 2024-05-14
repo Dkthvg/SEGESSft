@@ -1,11 +1,4 @@
-﻿@page "/doctraceabilitytype/edit/{TraceabilityTypeID:int}"
-<h3>Editar Tipo de Traza Documental</h3>
+﻿@page "/doctraceabiltyTypes/create"
+<h3>Tipos de Trazabilidad Documental</h3>
 
-@if (traceabilityType is null)
-{
-    <Loading />
-}
-else
-{
-    <FormWithName @ref="traceabilityTypeForm" Label="Ciudad:" Model="traceabilityType" OnValidSubmit="SaveAsync" ReturnAction="Return" />
-}
+<FormWithName @ref="docTraceabilityTypeForm" Label="Tipo: " Model="traceabilityType" OnValidSubmit="CreateAsync" ReturnAction="Return" />

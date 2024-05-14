@@ -1,4 +1,5 @@
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
 using SEGES.FrontEnd.Shared;
@@ -6,6 +7,7 @@ using SEGES.Shared.Entities;
 
 namespace SEGES.FrontEnd.Pages.DocTraceabilityTypes
 {
+    //   [Authorize(Roles = "Admin")]
     public partial class DocTraceabilityTypeCreate
     {
         private DocTraceabilityType traceabilityType = new();
