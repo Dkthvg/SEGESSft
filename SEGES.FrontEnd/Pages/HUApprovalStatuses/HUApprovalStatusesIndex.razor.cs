@@ -35,7 +35,7 @@ namespace SEGES.FrontEnd.Pages.HUApprovalStatuses
             Filter = filter;
             await ApplyFilterAsync();
             StateHasChanged();
-   
+
         }
         private void ValidateRecordsNumber()
         {
