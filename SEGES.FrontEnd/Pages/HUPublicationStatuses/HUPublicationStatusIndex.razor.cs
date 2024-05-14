@@ -71,11 +71,11 @@ namespace SEGES.FrontEnd.Pages.HUPublicationStatuses
                 await LoadPagesAsync();
             }
         }
-     
+
 
         private async Task<bool> LoadListAsync(int page)
         {
-            
+
             ValidateRecordsNumber();
             var url = $"api/HUApprovalStatus?page={page}&recordsnumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
