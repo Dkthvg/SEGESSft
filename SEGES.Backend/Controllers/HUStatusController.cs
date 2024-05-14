@@ -4,6 +4,7 @@ using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Backend.UnitsOfWork.Interfaces;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
+using System.Threading.Tasks;
 
 namespace SEGES.Backend.Controllers
 {
@@ -12,7 +13,7 @@ namespace SEGES.Backend.Controllers
     public class HUStatusController : GenericController<HUStatus>
     {
         private readonly IHUStatusUnitOfWork _huStatusUnitOfWork;
-        
+
         public HUStatusController(IGenericUnitOfWork<HUStatus> unitOfWork, IHUStatusUnitOfWork huStatusUnitOfWork) : base(unitOfWork)
         {
             _huStatusUnitOfWork = huStatusUnitOfWork;
