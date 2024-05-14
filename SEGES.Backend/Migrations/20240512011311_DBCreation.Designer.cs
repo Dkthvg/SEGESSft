@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SEGES.Shared;
+using SEGES.Backend;
 
 #nullable disable
 
-namespace SEGES.Shared.Migrations
+namespace SEGES.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240512011311_DBCreation")]
+    partial class DBCreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,139 @@ namespace SEGES.Shared.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
 
             modelBuilder.Entity("SEGES.Shared.Entities.City", b =>
                 {
@@ -76,9 +212,7 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocTraceabilityId"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -102,7 +236,13 @@ namespace SEGES.Shared.Migrations
                     b.Property<int>("Requirement_ID")
                         .HasColumnType("int");
 
+                    b.Property<int>("SourceSorceId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Source_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TypeDocTraceabilityTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Type_Id")
@@ -112,9 +252,9 @@ namespace SEGES.Shared.Migrations
 
                     b.HasIndex("RequirementID");
 
-                    b.HasIndex("Source_Id");
+                    b.HasIndex("SourceSorceId");
 
-                    b.HasIndex("Type_Id");
+                    b.HasIndex("TypeDocTraceabilityTypeId");
 
                     b.ToTable("DocTraceabilities");
                 });
@@ -146,9 +286,7 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GoalId"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("GoalDescription")
                         .IsRequired()
@@ -246,9 +384,7 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IssueId"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IssueDescription")
                         .IsRequired()
@@ -266,12 +402,15 @@ namespace SEGES.Shared.Migrations
                     b.Property<DateTime>("IssueStartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Project_ID")
                         .HasColumnType("int");
 
                     b.HasKey("IssueId");
 
-                    b.HasIndex("Project_ID");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Issues");
                 });
@@ -285,9 +424,10 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KPI_ID"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GoalId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Goal_Id")
                         .HasColumnType("int");
@@ -307,7 +447,7 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("KPI_ID");
 
-                    b.HasIndex("Goal_Id");
+                    b.HasIndex("GoalId");
 
                     b.ToTable("KPIs");
                 });
@@ -321,9 +461,7 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModuleId"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModuleDescription")
                         .HasColumnType("nvarchar(max)");
@@ -334,9 +472,6 @@ namespace SEGES.Shared.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ModuleId");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Modules");
                 });
@@ -350,13 +485,14 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Module_ID")
                         .HasColumnType("int");
@@ -368,10 +504,7 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Module_ID");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("ModuleId");
 
                     b.ToTable("Permissions");
                 });
@@ -385,9 +518,7 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ProjectDescription")
                         .HasMaxLength(4000)
@@ -395,6 +526,9 @@ namespace SEGES.Shared.Migrations
 
                     b.Property<DateTime>("ProjectEndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ProjectManagerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProjectManager_ID")
                         .HasColumnType("int");
@@ -407,27 +541,33 @@ namespace SEGES.Shared.Migrations
                     b.Property<DateTime>("ProjectStartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ProjectStatusId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProjectStatus_ID")
                         .HasColumnType("int");
 
+                    b.Property<string>("RequirementsEngineerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("RequirementsEngineer_ID")
                         .HasColumnType("int");
+
+                    b.Property<string>("StakeHolderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("StakeHolder_ID")
                         .HasColumnType("int");
 
                     b.HasKey("ProjectId");
 
-                    b.HasIndex("ProjectManager_ID");
+                    b.HasIndex("ProjectManagerId");
 
-                    b.HasIndex("ProjectName")
-                        .IsUnique();
+                    b.HasIndex("ProjectStatusId");
 
-                    b.HasIndex("ProjectStatus_ID");
+                    b.HasIndex("RequirementsEngineerId");
 
-                    b.HasIndex("RequirementsEngineer_ID");
-
-                    b.HasIndex("StakeHolder_ID");
+                    b.HasIndex("StakeHolderId");
 
                     b.ToTable("Projects");
                 });
@@ -459,16 +599,22 @@ namespace SEGES.Shared.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GoalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IssueId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rel_IssueGoalId")
                         .HasColumnType("int");
 
                     b.HasKey("Issue_ID", "Goal_ID");
 
-                    b.HasIndex("Goal_ID");
+                    b.HasIndex("GoalId");
+
+                    b.HasIndex("IssueId");
 
                     b.ToTable("Rel_IssueGoals");
                 });
@@ -481,12 +627,20 @@ namespace SEGES.Shared.Migrations
                     b.Property<int>("Permission_ID")
                         .HasColumnType("int");
 
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RolePermissionId")
                         .HasColumnType("int");
 
                     b.HasKey("Role_ID", "Permission_ID");
 
-                    b.HasIndex("Permission_ID");
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Rel_RolPermissions");
                 });
@@ -500,9 +654,10 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RequirementID"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GoalId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Goal_ID")
                         .HasColumnType("int");
@@ -519,7 +674,7 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("RequirementID");
 
-                    b.HasIndex("Goal_ID");
+                    b.HasIndex("GoalId");
 
                     b.ToTable("Requirements");
                 });
@@ -541,14 +696,7 @@ namespace SEGES.Shared.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("RoleId");
-
-                    b.HasIndex("RoleName");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -562,11 +710,9 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SecundaryKPI_Id"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("KPI_Id")
+                    b.Property<int>("KPI_ID")
                         .HasColumnType("int");
 
                     b.Property<string>("SecundaryKPI_Description")
@@ -584,9 +730,9 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("SecundaryKPI_Id");
 
-                    b.HasIndex("KPI_Id");
+                    b.HasIndex("KPI_ID");
 
-                    b.ToTable("secundaryKPIs");
+                    b.ToTable("SecundaryKPI");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.SourceDocTraceability", b =>
@@ -603,7 +749,7 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("SorceId");
 
-                    b.ToTable("SourceDocTraceabilities");
+                    b.ToTable("SourceDocTraceability");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.State", b =>
@@ -639,14 +785,15 @@ namespace SEGES.Shared.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UseCaseID"));
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("RequirementID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Requirement_Id")
                         .HasColumnType("int");
@@ -684,45 +831,110 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("UseCaseID");
 
-                    b.HasIndex("Requirement_Id");
+                    b.HasIndex("RequirementID");
 
                     b.ToTable("UseCases");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.User", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<int>("City_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EmailAddress")
+                    b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Role_ID")
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("City_Id");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.HasIndex("Role_ID");
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
 
-                    b.ToTable("Users");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.UserStory", b =>
@@ -737,17 +949,27 @@ namespace SEGES.Shared.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HUApprovalStatusId")
+                        .HasColumnType("int");
 
                     b.Property<int>("HUApprovalStatus_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HUPriorityPriorityId")
                         .HasColumnType("int");
 
                     b.Property<int>("HUPriority_Id")
                         .HasColumnType("int");
 
+                    b.Property<int>("HUPublicationStatusId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HUPublicationStatus_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HUStatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("HUStatus_Id")
@@ -757,6 +979,9 @@ namespace SEGES.Shared.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("RequirementID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Requirement_Id")
                         .HasColumnType("int");
@@ -768,17 +993,68 @@ namespace SEGES.Shared.Migrations
 
                     b.HasKey("UserStoryId");
 
-                    b.HasIndex("HUApprovalStatus_Id");
+                    b.HasIndex("HUApprovalStatusId");
 
-                    b.HasIndex("HUPriority_Id");
+                    b.HasIndex("HUPriorityPriorityId");
 
-                    b.HasIndex("HUPublicationStatus_Id");
+                    b.HasIndex("HUPublicationStatusId");
 
-                    b.HasIndex("HUStatus_Id");
+                    b.HasIndex("HUStatusId");
 
-                    b.HasIndex("Requirement_Id");
+                    b.HasIndex("RequirementID");
 
                     b.ToTable("UserStories");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("SEGES.Shared.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("SEGES.Shared.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SEGES.Shared.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("SEGES.Shared.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.City", b =>
@@ -802,12 +1078,13 @@ namespace SEGES.Shared.Migrations
 
                     b.HasOne("SEGES.Shared.Entities.SourceDocTraceability", "Source")
                         .WithMany()
-                        .HasForeignKey("Source_Id")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SourceSorceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.DocTraceabilityType", "Type")
                         .WithMany()
-                        .HasForeignKey("Type_Id")
+                        .HasForeignKey("TypeDocTraceabilityTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Requirement");
@@ -821,7 +1098,7 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Project", "Project")
                         .WithMany("Issues")
-                        .HasForeignKey("Project_ID")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -832,7 +1109,7 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
                         .WithMany("KPIs")
-                        .HasForeignKey("Goal_Id")
+                        .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -843,7 +1120,7 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Module", "Module")
                         .WithMany("Permissions")
-                        .HasForeignKey("Module_ID")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -854,27 +1131,24 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.User", "ProjectManager")
                         .WithMany()
-                        .HasForeignKey("ProjectManager_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ProjectManagerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SEGES.Shared.Entities.ProjectStatus", "ProjectStatus")
                         .WithMany()
-                        .HasForeignKey("ProjectStatus_ID")
+                        .HasForeignKey("ProjectStatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.User", "RequirementsEngineer")
                         .WithMany()
-                        .HasForeignKey("RequirementsEngineer_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("RequirementsEngineerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SEGES.Shared.Entities.User", "StakeHolder")
                         .WithMany()
-                        .HasForeignKey("StakeHolder_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("StakeHolderId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ProjectManager");
 
@@ -889,13 +1163,13 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
                         .WithMany("IssueGoals")
-                        .HasForeignKey("Goal_ID")
+                        .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.Issue", "Issue")
                         .WithMany("IssueGoals")
-                        .HasForeignKey("Issue_ID")
+                        .HasForeignKey("IssueId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -908,13 +1182,13 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Permission", "Permission")
                         .WithMany("RolPermissions")
-                        .HasForeignKey("Permission_ID")
+                        .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.Role", "Role")
                         .WithMany("RelPermissions")
-                        .HasForeignKey("Role_ID")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -927,26 +1201,18 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
                         .WithMany("Requirements")
-                        .HasForeignKey("Goal_ID")
+                        .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Goal");
                 });
 
-            modelBuilder.Entity("SEGES.Shared.Entities.Role", b =>
-                {
-                    b.HasOne("SEGES.Shared.Entities.User", null)
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("SEGES.Shared.Entities.SecundaryKPI", b =>
                 {
                     b.HasOne("SEGES.Shared.Entities.KPI", "KPI")
                         .WithMany("SecundaryKPIs")
-                        .HasForeignKey("KPI_Id")
+                        .HasForeignKey("KPI_ID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -968,7 +1234,7 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.Requirement", "Requirement")
                         .WithMany("UseCases")
-                        .HasForeignKey("Requirement_Id")
+                        .HasForeignKey("RequirementID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -979,50 +1245,47 @@ namespace SEGES.Shared.Migrations
                 {
                     b.HasOne("SEGES.Shared.Entities.City", "City")
                         .WithMany()
-                        .HasForeignKey("City_Id")
+                        .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SEGES.Shared.Entities.Role", "Role")
+                    b.HasOne("SEGES.Shared.Entities.Role", null)
                         .WithMany("Users")
-                        .HasForeignKey("Role_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("City");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.UserStory", b =>
                 {
                     b.HasOne("SEGES.Shared.Entities.HUApprovalStatus", "HUApprovalStatus")
                         .WithMany()
-                        .HasForeignKey("HUApprovalStatus_Id")
+                        .HasForeignKey("HUApprovalStatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.HUPriority", "HUPriority")
                         .WithMany()
-                        .HasForeignKey("HUPriority_Id")
+                        .HasForeignKey("HUPriorityPriorityId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.HUPublicationStatus", "HUPublicationStatus")
                         .WithMany()
-                        .HasForeignKey("HUPublicationStatus_Id")
+                        .HasForeignKey("HUPublicationStatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.HUStatus", "HUStatus")
                         .WithMany()
-                        .HasForeignKey("HUStatus_Id")
+                        .HasForeignKey("HUStatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.Requirement", "Requirement")
                         .WithMany("UserStories")
-                        .HasForeignKey("Requirement_Id")
+                        .HasForeignKey("RequirementID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1095,11 +1358,6 @@ namespace SEGES.Shared.Migrations
             modelBuilder.Entity("SEGES.Shared.Entities.State", b =>
                 {
                     b.Navigation("Cities");
-                });
-
-            modelBuilder.Entity("SEGES.Shared.Entities.User", b =>
-                {
-                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,6 @@
 ﻿using SEGES.Shared.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SEGES.Shared.Entities
 {
@@ -26,7 +22,6 @@ namespace SEGES.Shared.Entities
 
         public DateTime CreationDate { get; set; }
 
-        public int KPI_Id { get; set; }
         public KPI KPI { get; set; }
     }
 }

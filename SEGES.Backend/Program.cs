@@ -3,7 +3,7 @@ using SEGES.Backend.Repositories.Implementations;
 using SEGES.Backend.Repositories.Interfaces;
 using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Backend.UnitsOfWork.Interfaces;
-using SEGES.Shared;
+using SEGES.Backend;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,11 +58,13 @@ SeedData(app);
 void SeedData(WebApplication app)
 {
     var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
-    using var scope = scopedFactory!.CreateScope();
-    var service = scope.ServiceProvider.GetService<SeedDb>();
-    service!.SeedAsync().Wait();
-}
 
+    using (var scope = scopedFactory!.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<SeedDb>();
+        service!.SeedAsync().Wait();
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

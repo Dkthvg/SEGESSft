@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEGES.Shared.Entities;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SEGES.Shared
+
+namespace SEGES.Backend
 {
     public class SeedDb
     {
@@ -46,32 +42,7 @@ namespace SEGES.Shared
             await CheckHUPublicationStatus();
             await CheckHUStatus();
             await CheckProjectStatus();
-            await CheckRoles();
-        }
-
-        private async Task CheckRoles()
-        {
-            if (!_context.Roles.Any())
-            {
-                //_context.ResetTableIDs("Roles");
-                _context.Roles.Add(new Role { RoleName = "Administrador del sistema" });
-                _context.Roles.Add(new Role { RoleName = "Gerente de proyecto" });
-                _context.Roles.Add(new Role { RoleName = "Líder de equipo" });
-                _context.Roles.Add(new Role { RoleName = "Desarrollador" });
-                _context.Roles.Add(new Role { RoleName = "Tester/QA" });
-                _context.Roles.Add(new Role { RoleName = "Analista de negocio" });
-                _context.Roles.Add(new Role { RoleName = "Diseñador UX/UI" });
-                _context.Roles.Add(new Role { RoleName = "Cliente" });
-                _context.Roles.Add(new Role { RoleName = "Interesado" });
-                _context.Roles.Add(new Role { RoleName = "Consultor" });
-                _context.Roles.Add(new Role { RoleName = "Coordinador de proyecto" });
-                _context.Roles.Add(new Role { RoleName = "Scrum Master" });
-                _context.Roles.Add(new Role { RoleName = "Product Owner" });
-                _context.Roles.Add(new Role { RoleName = "Analista de datos" });
-                _context.Roles.Add(new Role { RoleName = "Arquitecto de software" });
-                //SaveDBChanges();
-                _context.SaveChanges();
-            }
+      
         }
 
         private async Task CheckProjectStatus()

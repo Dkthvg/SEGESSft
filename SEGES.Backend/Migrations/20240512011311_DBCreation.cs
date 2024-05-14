@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SEGES.Shared.Migrations
+namespace SEGES.Backend.Migrations
 {
     /// <inheritdoc />
     public partial class DBCreation : Migration
@@ -11,6 +11,20 @@ namespace SEGES.Shared.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -45,7 +59,7 @@ namespace SEGES.Shared.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GoalName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     GoalDescription = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,7 +126,7 @@ namespace SEGES.Shared.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ModuleDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +147,21 @@ namespace SEGES.Shared.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SourceDocTraceabilities",
+                name: "Roles",
+                columns: table => new
+                {
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    RoleDescription = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SourceDocTraceability",
                 columns: table => new
                 {
                     SorceId = table.Column<int>(type: "int", nullable: false)
@@ -142,7 +170,28 @@ namespace SEGES.Shared.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SourceDocTraceabilities", x => x.SorceId);
+                    table.PrimaryKey("PK_SourceDocTraceability", x => x.SorceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,15 +223,16 @@ namespace SEGES.Shared.Migrations
                     KPI_Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     KPI_Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     KPI_Formula = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Goal_Id = table.Column<int>(type: "int", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Goal_Id = table.Column<int>(type: "int", nullable: false),
+                    GoalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_KPIs", x => x.KPI_ID);
                     table.ForeignKey(
-                        name: "FK_KPIs_Goal_Goal_Id",
-                        column: x => x.Goal_Id,
+                        name: "FK_KPIs_Goal_GoalId",
+                        column: x => x.GoalId,
                         principalTable: "Goal",
                         principalColumn: "GoalId",
                         onDelete: ReferentialAction.Restrict);
@@ -196,15 +246,16 @@ namespace SEGES.Shared.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     RequirementDescription = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Goal_ID = table.Column<int>(type: "int", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Goal_ID = table.Column<int>(type: "int", nullable: false),
+                    GoalId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Requirements", x => x.RequirementID);
                     table.ForeignKey(
-                        name: "FK_Requirements_Goal_Goal_ID",
-                        column: x => x.Goal_ID,
+                        name: "FK_Requirements_Goal_GoalId",
+                        column: x => x.GoalId,
                         principalTable: "Goal",
                         principalColumn: "GoalId",
                         onDelete: ReferentialAction.Restrict);
@@ -219,14 +270,15 @@ namespace SEGES.Shared.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
                     Module_ID = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
+                    ModuleId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Permissions_Modules_Module_ID",
-                        column: x => x.Module_ID,
+                        name: "FK_Permissions_Modules_ModuleId",
+                        column: x => x.ModuleId,
                         principalTable: "Modules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Restrict);
@@ -253,7 +305,7 @@ namespace SEGES.Shared.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "secundaryKPIs",
+                name: "SecundaryKPI",
                 columns: table => new
                 {
                     SecundaryKPI_Id = table.Column<int>(type: "int", nullable: false)
@@ -261,15 +313,15 @@ namespace SEGES.Shared.Migrations
                     SecundaryKPI_Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SecundaryKPI_Description = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     SecundaryKPI_Formula = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    KPI_Id = table.Column<int>(type: "int", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    KPI_ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_secundaryKPIs", x => x.SecundaryKPI_Id);
+                    table.PrimaryKey("PK_SecundaryKPI", x => x.SecundaryKPI_Id);
                     table.ForeignKey(
-                        name: "FK_secundaryKPIs_KPIs_KPI_Id",
-                        column: x => x.KPI_Id,
+                        name: "FK_SecundaryKPI_KPIs_KPI_ID",
+                        column: x => x.KPI_ID,
                         principalTable: "KPIs",
                         principalColumn: "KPI_ID",
                         onDelete: ReferentialAction.Restrict);
@@ -285,18 +337,20 @@ namespace SEGES.Shared.Migrations
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Observations = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Requirement_ID = table.Column<int>(type: "int", nullable: false),
                     RequirementID = table.Column<int>(type: "int", nullable: false),
                     Source_Id = table.Column<int>(type: "int", nullable: true),
-                    Type_Id = table.Column<int>(type: "int", nullable: true)
+                    SourceSorceId = table.Column<int>(type: "int", nullable: false),
+                    Type_Id = table.Column<int>(type: "int", nullable: true),
+                    TypeDocTraceabilityTypeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DocTraceabilities", x => x.DocTraceabilityId);
                     table.ForeignKey(
-                        name: "FK_DocTraceabilities_DocTraceabilityTypes_Type_Id",
-                        column: x => x.Type_Id,
+                        name: "FK_DocTraceabilities_DocTraceabilityTypes_TypeDocTraceabilityTypeId",
+                        column: x => x.TypeDocTraceabilityTypeId,
                         principalTable: "DocTraceabilityTypes",
                         principalColumn: "DocTraceabilityTypeId",
                         onDelete: ReferentialAction.Restrict);
@@ -307,9 +361,9 @@ namespace SEGES.Shared.Migrations
                         principalColumn: "RequirementID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DocTraceabilities_SourceDocTraceabilities_Source_Id",
-                        column: x => x.Source_Id,
-                        principalTable: "SourceDocTraceabilities",
+                        name: "FK_DocTraceabilities_SourceDocTraceability_SourceSorceId",
+                        column: x => x.SourceSorceId,
+                        principalTable: "SourceDocTraceability",
                         principalColumn: "SorceId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -330,15 +384,16 @@ namespace SEGES.Shared.Migrations
                     UseCaseWarnings = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UseCaseCreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UseCaseUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Requirement_Id = table.Column<int>(type: "int", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Requirement_Id = table.Column<int>(type: "int", nullable: false),
+                    RequirementID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UseCases", x => x.UseCaseID);
                     table.ForeignKey(
-                        name: "FK_UseCases_Requirements_Requirement_Id",
-                        column: x => x.Requirement_Id,
+                        name: "FK_UseCases_Requirements_RequirementID",
+                        column: x => x.RequirementID,
                         principalTable: "Requirements",
                         principalColumn: "RequirementID",
                         onDelete: ReferentialAction.Restrict);
@@ -353,89 +408,207 @@ namespace SEGES.Shared.Migrations
                     Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UserStoryDescription = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     AcceptanceCriteria = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HUPriority_Id = table.Column<int>(type: "int", nullable: false),
+                    HUPriorityPriorityId = table.Column<int>(type: "int", nullable: false),
                     HUPublicationStatus_Id = table.Column<int>(type: "int", nullable: false),
+                    HUPublicationStatusId = table.Column<int>(type: "int", nullable: false),
                     HUApprovalStatus_Id = table.Column<int>(type: "int", nullable: false),
+                    HUApprovalStatusId = table.Column<int>(type: "int", nullable: false),
                     HUStatus_Id = table.Column<int>(type: "int", nullable: false),
-                    Requirement_Id = table.Column<int>(type: "int", nullable: false)
+                    HUStatusId = table.Column<int>(type: "int", nullable: false),
+                    Requirement_Id = table.Column<int>(type: "int", nullable: false),
+                    RequirementID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserStories", x => x.UserStoryId);
                     table.ForeignKey(
-                        name: "FK_UserStories_HUApprovalStatuses_HUApprovalStatus_Id",
-                        column: x => x.HUApprovalStatus_Id,
+                        name: "FK_UserStories_HUApprovalStatuses_HUApprovalStatusId",
+                        column: x => x.HUApprovalStatusId,
                         principalTable: "HUApprovalStatuses",
                         principalColumn: "HUApprovalStatusId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserStories_HUPriorities_HUPriority_Id",
-                        column: x => x.HUPriority_Id,
+                        name: "FK_UserStories_HUPriorities_HUPriorityPriorityId",
+                        column: x => x.HUPriorityPriorityId,
                         principalTable: "HUPriorities",
                         principalColumn: "PriorityId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserStories_HUPublicationStatuses_HUPublicationStatus_Id",
-                        column: x => x.HUPublicationStatus_Id,
+                        name: "FK_UserStories_HUPublicationStatuses_HUPublicationStatusId",
+                        column: x => x.HUPublicationStatusId,
                         principalTable: "HUPublicationStatuses",
                         principalColumn: "HUPublicationStatusId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserStories_HUStatuses_HUStatus_Id",
-                        column: x => x.HUStatus_Id,
+                        name: "FK_UserStories_HUStatuses_HUStatusId",
+                        column: x => x.HUStatusId,
                         principalTable: "HUStatuses",
                         principalColumn: "HUStatusId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserStories_Requirements_Requirement_Id",
-                        column: x => x.Requirement_Id,
+                        name: "FK_UserStories_Requirements_RequirementID",
+                        column: x => x.RequirementID,
                         principalTable: "Requirements",
                         principalColumn: "RequirementID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Issues",
+                name: "Rel_RolPermissions",
                 columns: table => new
                 {
-                    IssueId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IssueName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    IssueDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    IssueStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IssueEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    Project_ID = table.Column<int>(type: "int", nullable: false)
+                    Role_ID = table.Column<int>(type: "int", nullable: false),
+                    Permission_ID = table.Column<int>(type: "int", nullable: false),
+                    RolePermissionId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    PermissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Issues", x => x.IssueId);
+                    table.PrimaryKey("PK_Rel_RolPermissions", x => new { x.Role_ID, x.Permission_ID });
+                    table.ForeignKey(
+                        name: "FK_Rel_RolPermissions_Permissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Rel_RolPermissions_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rel_IssueGoals",
+                name: "AspNetUsers",
                 columns: table => new
                 {
-                    Issue_ID = table.Column<int>(type: "int", nullable: false),
-                    Goal_ID = table.Column<int>(type: "int", nullable: false),
-                    Rel_IssueGoalId = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()")
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Document = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserType = table.Column<int>(type: "int", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rel_IssueGoals", x => new { x.Issue_ID, x.Goal_ID });
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rel_IssueGoals_Goal_Goal_ID",
-                        column: x => x.Goal_ID,
-                        principalTable: "Goal",
-                        principalColumn: "GoalId",
+                        name: "FK_AspNetUsers_Cities_CityId",
+                        column: x => x.CityId,
+                        principalTable: "Cities",
+                        principalColumn: "CityId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Rel_IssueGoals_Issues_Issue_ID",
-                        column: x => x.Issue_ID,
-                        principalTable: "Issues",
-                        principalColumn: "IssueId",
+                        name: "FK_AspNetUsers_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -449,84 +622,146 @@ namespace SEGES.Shared.Migrations
                     ProjectDescription = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
                     ProjectStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProjectEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StakeHolder_ID = table.Column<int>(type: "int", nullable: false),
+                    StakeHolderId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ProjectManager_ID = table.Column<int>(type: "int", nullable: false),
+                    ProjectManagerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     RequirementsEngineer_ID = table.Column<int>(type: "int", nullable: false),
-                    ProjectStatus_ID = table.Column<int>(type: "int", nullable: false)
+                    RequirementsEngineerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ProjectStatus_ID = table.Column<int>(type: "int", nullable: false),
+                    ProjectStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_Projects_ProjectStatuses_ProjectStatus_ID",
-                        column: x => x.ProjectStatus_ID,
+                        name: "FK_Projects_AspNetUsers_ProjectManagerId",
+                        column: x => x.ProjectManagerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_RequirementsEngineerId",
+                        column: x => x.RequirementsEngineerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projects_AspNetUsers_StakeHolderId",
+                        column: x => x.StakeHolderId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Projects_ProjectStatuses_ProjectStatusId",
+                        column: x => x.ProjectStatusId,
                         principalTable: "ProjectStatuses",
                         principalColumn: "ProjectStatusId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rel_RolPermissions",
+                name: "Issues",
                 columns: table => new
                 {
-                    Role_ID = table.Column<int>(type: "int", nullable: false),
-                    Permission_ID = table.Column<int>(type: "int", nullable: false),
-                    RolePermissionId = table.Column<int>(type: "int", nullable: false)
+                    IssueId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IssueName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IssueDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IssueStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IssueEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Project_ID = table.Column<int>(type: "int", nullable: false),
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rel_RolPermissions", x => new { x.Role_ID, x.Permission_ID });
+                    table.PrimaryKey("PK_Issues", x => x.IssueId);
                     table.ForeignKey(
-                        name: "FK_Rel_RolPermissions_Permissions_Permission_ID",
-                        column: x => x.Permission_ID,
-                        principalTable: "Permissions",
-                        principalColumn: "Id",
+                        name: "FK_Issues_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Rel_IssueGoals",
                 columns: table => new
                 {
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    RoleDescription = table.Column<string>(type: "nvarchar(1500)", maxLength: 1500, nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    Issue_ID = table.Column<int>(type: "int", nullable: false),
+                    Goal_ID = table.Column<int>(type: "int", nullable: false),
+                    Rel_IssueGoalId = table.Column<int>(type: "int", nullable: false),
+                    IssueId = table.Column<int>(type: "int", nullable: false),
+                    GoalId = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.RoleId);
+                    table.PrimaryKey("PK_Rel_IssueGoals", x => new { x.Issue_ID, x.Goal_ID });
+                    table.ForeignKey(
+                        name: "FK_Rel_IssueGoals_Goal_GoalId",
+                        column: x => x.GoalId,
+                        principalTable: "Goal",
+                        principalColumn: "GoalId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Rel_IssueGoals_Issues_IssueId",
+                        column: x => x.IssueId,
+                        principalTable: "Issues",
+                        principalColumn: "IssueId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
-                    City_Id = table.Column<int>(type: "int", nullable: false),
-                    Role_ID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_Users_Cities_City_Id",
-                        column: x => x.City_Id,
-                        principalTable: "Cities",
-                        principalColumn: "CityId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_Role_ID",
-                        column: x => x.Role_ID,
-                        principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CityId",
+                table: "AspNetUsers",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_RoleId",
+                table: "AspNetUsers",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_StateId_Name",
@@ -546,97 +781,79 @@ namespace SEGES.Shared.Migrations
                 column: "RequirementID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocTraceabilities_Source_Id",
+                name: "IX_DocTraceabilities_SourceSorceId",
                 table: "DocTraceabilities",
-                column: "Source_Id");
+                column: "SourceSorceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocTraceabilities_Type_Id",
+                name: "IX_DocTraceabilities_TypeDocTraceabilityTypeId",
                 table: "DocTraceabilities",
-                column: "Type_Id");
+                column: "TypeDocTraceabilityTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Issues_Project_ID",
+                name: "IX_Issues_ProjectId",
                 table: "Issues",
-                column: "Project_ID");
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_KPIs_Goal_Id",
+                name: "IX_KPIs_GoalId",
                 table: "KPIs",
-                column: "Goal_Id");
+                column: "GoalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modules_Name",
-                table: "Modules",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Permissions_Module_ID",
+                name: "IX_Permissions_ModuleId",
                 table: "Permissions",
-                column: "Module_ID");
+                column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_Name",
-                table: "Permissions",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_ProjectManager_ID",
+                name: "IX_Projects_ProjectManagerId",
                 table: "Projects",
-                column: "ProjectManager_ID");
+                column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_ProjectName",
+                name: "IX_Projects_ProjectStatusId",
                 table: "Projects",
-                column: "ProjectName",
-                unique: true);
+                column: "ProjectStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_ProjectStatus_ID",
+                name: "IX_Projects_RequirementsEngineerId",
                 table: "Projects",
-                column: "ProjectStatus_ID");
+                column: "RequirementsEngineerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_RequirementsEngineer_ID",
+                name: "IX_Projects_StakeHolderId",
                 table: "Projects",
-                column: "RequirementsEngineer_ID");
+                column: "StakeHolderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_StakeHolder_ID",
-                table: "Projects",
-                column: "StakeHolder_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rel_IssueGoals_Goal_ID",
+                name: "IX_Rel_IssueGoals_GoalId",
                 table: "Rel_IssueGoals",
-                column: "Goal_ID");
+                column: "GoalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rel_RolPermissions_Permission_ID",
+                name: "IX_Rel_IssueGoals_IssueId",
+                table: "Rel_IssueGoals",
+                column: "IssueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rel_RolPermissions_PermissionId",
                 table: "Rel_RolPermissions",
-                column: "Permission_ID");
+                column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Requirements_Goal_ID",
+                name: "IX_Rel_RolPermissions_RoleId",
+                table: "Rel_RolPermissions",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requirements_GoalId",
                 table: "Requirements",
-                column: "Goal_ID");
+                column: "GoalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_RoleName",
-                table: "Roles",
-                column: "RoleName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Roles_UserId",
-                table: "Roles",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_secundaryKPIs_KPI_Id",
-                table: "secundaryKPIs",
-                column: "KPI_Id");
+                name: "IX_SecundaryKPI_KPI_ID",
+                table: "SecundaryKPI",
+                column: "KPI_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId_Name",
@@ -645,110 +862,53 @@ namespace SEGES.Shared.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UseCases_Requirement_Id",
+                name: "IX_UseCases_RequirementID",
                 table: "UseCases",
-                column: "Requirement_Id");
+                column: "RequirementID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_City_Id",
-                table: "Users",
-                column: "City_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Name",
-                table: "Users",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_Role_ID",
-                table: "Users",
-                column: "Role_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserStories_HUApprovalStatus_Id",
+                name: "IX_UserStories_HUApprovalStatusId",
                 table: "UserStories",
-                column: "HUApprovalStatus_Id");
+                column: "HUApprovalStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserStories_HUPriority_Id",
+                name: "IX_UserStories_HUPriorityPriorityId",
                 table: "UserStories",
-                column: "HUPriority_Id");
+                column: "HUPriorityPriorityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserStories_HUPublicationStatus_Id",
+                name: "IX_UserStories_HUPublicationStatusId",
                 table: "UserStories",
-                column: "HUPublicationStatus_Id");
+                column: "HUPublicationStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserStories_HUStatus_Id",
+                name: "IX_UserStories_HUStatusId",
                 table: "UserStories",
-                column: "HUStatus_Id");
+                column: "HUStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserStories_Requirement_Id",
+                name: "IX_UserStories_RequirementID",
                 table: "UserStories",
-                column: "Requirement_Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Issues_Projects_Project_ID",
-                table: "Issues",
-                column: "Project_ID",
-                principalTable: "Projects",
-                principalColumn: "ProjectId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Projects_Users_ProjectManager_ID",
-                table: "Projects",
-                column: "ProjectManager_ID",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Projects_Users_RequirementsEngineer_ID",
-                table: "Projects",
-                column: "RequirementsEngineer_ID",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Projects_Users_StakeHolder_ID",
-                table: "Projects",
-                column: "StakeHolder_ID",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Rel_RolPermissions_Roles_Role_ID",
-                table: "Rel_RolPermissions",
-                column: "Role_ID",
-                principalTable: "Roles",
-                principalColumn: "RoleId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Roles_Users_UserId",
-                table: "Roles",
-                column: "UserId",
-                principalTable: "Users",
-                principalColumn: "UserId",
-                onDelete: ReferentialAction.Restrict);
+                column: "RequirementID");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Cities_States_StateId",
-                table: "Cities");
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
 
-            migrationBuilder.DropForeignKey(
-                name: "FK_Roles_Users_UserId",
-                table: "Roles");
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
                 name: "DocTraceabilities");
@@ -760,7 +920,7 @@ namespace SEGES.Shared.Migrations
                 name: "Rel_RolPermissions");
 
             migrationBuilder.DropTable(
-                name: "secundaryKPIs");
+                name: "SecundaryKPI");
 
             migrationBuilder.DropTable(
                 name: "UseCases");
@@ -769,10 +929,13 @@ namespace SEGES.Shared.Migrations
                 name: "UserStories");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
                 name: "DocTraceabilityTypes");
 
             migrationBuilder.DropTable(
-                name: "SourceDocTraceabilities");
+                name: "SourceDocTraceability");
 
             migrationBuilder.DropTable(
                 name: "Issues");
@@ -808,22 +971,22 @@ namespace SEGES.Shared.Migrations
                 name: "Goal");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "ProjectStatuses");
-
-            migrationBuilder.DropTable(
-                name: "States");
-
-            migrationBuilder.DropTable(
-                name: "Countries");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "States");
+
+            migrationBuilder.DropTable(
+                name: "Countries");
         }
     }
 }
