@@ -106,7 +106,7 @@ namespace SEGES.FrontEnd.Pages.HUPriorities
             }
             totalPages = responseHttp.Response;
         }
-     
+
         public async Task DeleteAsync(HUPriority priority)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions
