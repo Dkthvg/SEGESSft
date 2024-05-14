@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SEGES.Backend.UnitsOfWork.Interfaces;
 using SEGES.Shared.DTOs;
-using SEGES.Shared.Entities;
-using Controller = Microsoft.AspNetCore.Mvc.Controller;
-using HttpDeleteAttribute = Microsoft.AspNetCore.Mvc.HttpDeleteAttribute;
-using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
-using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
-using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
+using System.Threading.Tasks;
+
 
 
 namespace SEGES.Backend.Controllers

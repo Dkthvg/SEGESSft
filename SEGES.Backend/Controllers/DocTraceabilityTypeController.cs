@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SEGES.Backend.Repositories.Interfaces;
 using SEGES.Backend.UnitsOfWork.Interfaces;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
+using System.Threading.Tasks;
 
 namespace SEGES.Backend.Controllers
 {

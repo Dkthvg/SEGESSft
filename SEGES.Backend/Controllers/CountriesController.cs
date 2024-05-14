@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using SEGES.Backend.UnitsOfWork.Interfaces;
-using SEGES.Shared;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
-using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
 
 namespace SEGES.Backend.Controllers
 {
+
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class CountriesController : GenericController<Country>
     {
