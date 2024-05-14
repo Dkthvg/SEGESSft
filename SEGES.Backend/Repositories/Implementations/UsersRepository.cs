@@ -61,6 +61,8 @@ namespace SEGES.Backend.Repositories.Implementations
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
+
+
         public async Task<User> GetUserAsync(string email)
         {
             var user = await _context.Users
