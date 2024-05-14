@@ -108,7 +108,7 @@ namespace SEGES.FrontEnd.Pages.HUStatuses
             }
             totalPages = responseHttp.Response;
         }
-       
+
         public async Task DeleteAsync(HUStatus hUStatus)
         {
             var result = await SweetAlertService.FireAsync(new SweetAlertOptions

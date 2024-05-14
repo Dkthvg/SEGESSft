@@ -17,7 +17,7 @@ namespace SEGES.FrontEnd.Pages.ProjectStatuses
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         public List<ProjectStatus>? ProjectStatuses { get; set; }
-       protected override async Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
         }
