@@ -16,7 +16,6 @@ namespace SEGES.Backend.Repositories.Implementations
         {
             _context = context;
         }
-
         public async Task<IEnumerable<State>> GetComboAsync(int countryId)
         {
             return await _context.States
@@ -66,6 +65,11 @@ namespace SEGES.Backend.Repositories.Implementations
                 .Include(x => x.Cities)
                 .Where(x => x.Country!.CountryId == pagination.Id)
                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
+            }
 
             return new ActionResponse<IEnumerable<State>>
             {

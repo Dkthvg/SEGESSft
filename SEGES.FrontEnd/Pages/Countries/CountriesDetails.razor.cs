@@ -13,13 +13,15 @@ namespace SEGES.FrontEnd.Pages.Countries
         private int currentPage = 1;
         private int totalPages;
 
-        [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
+
         [Parameter] public int CountryId { get; set; }
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
+
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
@@ -38,6 +40,12 @@ namespace SEGES.FrontEnd.Pages.Countries
             Filter = filter;
             await ApplyFilterAsync();
             StateHasChanged();
+        }
+        private async Task ApplyFilterAsync()
+        {
+            int page = 1;
+            await LoadAsync(page);
+            await SelectedPageAsync(page);
         }
 
         private async Task SelectedPageAsync(int page)
@@ -111,16 +119,12 @@ namespace SEGES.FrontEnd.Pages.Countries
             return true;
         }
 
-        private async Task ApplyFilterAsync()
-        {
-            int page = 1;
-            await LoadAsync(page);
-            await SelectedPageAsync(page);
-        }
+     
 
         private async Task<bool> LoadCountryAsync()
         {
             var responseHttp = await Repository.GetAsync<Country>($"/api/countries/{CountryId}");
+          
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)

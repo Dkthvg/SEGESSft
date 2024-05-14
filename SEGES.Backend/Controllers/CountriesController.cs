@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using SEGES.Backend.UnitsOfWork.Interfaces;
@@ -20,6 +21,13 @@ namespace SEGES.Backend.Controllers
             _countriesUnitOfWork = countriesUnitOfWork;
         }
 
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _countriesUnitOfWork.GetComboAsync());
+        }
+
         [HttpGet("full")]
         public override async Task<IActionResult> GetAsync()
         {
@@ -30,6 +38,7 @@ namespace SEGES.Backend.Controllers
             }
             return BadRequest();
         }
+
 
         [HttpGet]
         public override async Task<IActionResult> GetAsync(PaginationDTO pagination)

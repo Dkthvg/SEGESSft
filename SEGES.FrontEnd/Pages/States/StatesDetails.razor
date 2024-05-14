@@ -1,5 +1,4 @@
 ﻿@page "/states/details/{StateId:int}"
-
 @if (state is null)
 {
     <Loading />
@@ -15,7 +14,7 @@ else
             </span>
         </div>
         <div class="card-body">
-            <Filter PlaceHolder="Buscar." Callback=@FilterCallBack />
+            <Filter PlaceHolder="Buscar ciudad..." Callback=@FilterCallBack />
             <GenericList2 MyList="cities!">
                 <Body>
                     <Pagination CurrentPage="currentPage"

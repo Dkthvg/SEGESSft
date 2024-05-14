@@ -14,6 +14,7 @@ namespace SEGES.Backend.Repositories.Interfaces
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
 
+        Task<IEnumerable<Country>> GetComboAsync();
 
     }
 }

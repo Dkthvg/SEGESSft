@@ -36,12 +36,10 @@ namespace SEGES.Backend.Repositories.Implementations
                 .Include(c => c.States)
                 .AsQueryable();
 
-
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
             }
-
 
             return new ActionResponse<IEnumerable<Country>>
             {
@@ -56,7 +54,6 @@ namespace SEGES.Backend.Repositories.Implementations
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.Countries.AsQueryable();
-
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -102,6 +99,5 @@ namespace SEGES.Backend.Repositories.Implementations
                 .OrderBy(c => c.Name)
                 .ToListAsync();
         }
-
     }
 }

@@ -14,7 +14,7 @@ namespace SEGES.Shared.Entities
 
         [Display(Name = "País")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         public string Name { get; set; } = null!;
 
         public ICollection<State>? States { get; set; }

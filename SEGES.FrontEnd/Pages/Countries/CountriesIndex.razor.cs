@@ -16,10 +16,9 @@ namespace SEGES.FrontEnd.Pages.Countries
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
 
+        [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
-        [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
-
 
         public List<Country>? Countries { get; set; }
 
@@ -27,6 +26,7 @@ namespace SEGES.FrontEnd.Pages.Countries
         {
             await LoadAsync();
         }
+
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
             RecordsNumber = recordsnumber;
@@ -34,18 +34,20 @@ namespace SEGES.FrontEnd.Pages.Countries
             await LoadAsync(page);
             await SelectedPageAsync(page);
         }
+
         private async Task FilterCallBack(string filter)
         {
             Filter = filter;
             await ApplyFilterAsync();
             StateHasChanged();
         }
+
         private async Task SelectedPageAsync(int page)
         {
             currentPage = page;
             await LoadAsync(page);
         }
-   
+
         private async Task LoadAsync(int page = 1)
         {
             if (!string.IsNullOrWhiteSpace(Page))
@@ -59,6 +61,7 @@ namespace SEGES.FrontEnd.Pages.Countries
                 await LoadPagesAsync();
             }
         }
+
         private void ValidateRecordsNumber()
         {
             if (RecordsNumber == 0)
@@ -75,6 +78,7 @@ namespace SEGES.FrontEnd.Pages.Countries
             {
                 url += $"&filter={Filter}";
             }
+
             var responseHttp = await Repository.GetAsync<List<Country>>(url);
             if (responseHttp.Error)
             {
@@ -88,13 +92,12 @@ namespace SEGES.FrontEnd.Pages.Countries
 
         private async Task LoadPagesAsync()
         {
-          
-            ValidateRecordsNumber();
             var url = $"api/countries/totalPages?recordsnumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
             }
+
             var responseHttp = await Repository.GetAsync<int>(url);
             if (responseHttp.Error)
             {
@@ -105,15 +108,12 @@ namespace SEGES.FrontEnd.Pages.Countries
             totalPages = responseHttp.Response;
         }
 
-
-
         private async Task ApplyFilterAsync()
         {
             int page = 1;
             await LoadAsync(page);
             await SelectedPageAsync(page);
         }
-
 
         private async Task DeleteAsycn(Country country)
         {
@@ -155,7 +155,5 @@ namespace SEGES.FrontEnd.Pages.Countries
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
         }
-
     }
 }
-

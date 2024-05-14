@@ -13,9 +13,10 @@ namespace SEGES.FrontEnd.Pages.States
         private int currentPage = 1;
         private int totalPages;
 
-        [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
+        [Inject] private IRepository Repository { get; set; } = null!;
+
         [Parameter] public int StateId { get; set; }
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
