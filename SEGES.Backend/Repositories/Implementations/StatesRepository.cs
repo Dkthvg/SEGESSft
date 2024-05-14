@@ -16,6 +16,7 @@ namespace SEGES.Backend.Repositories.Implementations
         {
             _context = context;
         }
+
         public async Task<IEnumerable<State>> GetComboAsync(int countryId)
         {
             return await _context.States

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEGES.Backend.Helpers;
 using SEGES.Backend.Repositories.Interfaces;
-using SEGES.Shared;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Responses;
 
@@ -88,7 +87,6 @@ namespace SEGES.Backend.Repositories.Implementations
                     Message = "Registro no encontrado"
                 };
             }
-
             try
             {
                 _entity.Remove(row);

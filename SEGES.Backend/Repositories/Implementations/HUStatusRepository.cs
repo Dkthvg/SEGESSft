@@ -11,10 +11,12 @@ namespace SEGES.Backend.Repositories.Implementations
     public class HUStatusRepository : GenericRepository<HUStatus>, IHUStatusRepository
     {
         private readonly DataContext _context;
+
         public HUStatusRepository(DataContext context) : base(context)
         {
             _context = context;
         }
+
         public override async Task<ActionResponse<IEnumerable<HUStatus>>> GetAsync()
         {
             var huStatus = await _context.HUStatuses
@@ -26,6 +28,7 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = huStatus
             };
         }
+
         public async Task<IEnumerable<HUStatus>> GetComboAsync()
         {
             return await _context.HUStatuses
@@ -52,7 +55,6 @@ namespace SEGES.Backend.Repositories.Implementations
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.HUStatuses.AsQueryable();
-
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -85,7 +87,5 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = type
             };
         }
-
-      
     }
 }
