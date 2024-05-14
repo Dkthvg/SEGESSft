@@ -9,14 +9,14 @@ using SEGES.Shared.DTOs;
 
 namespace SEGES.Backend.Repositories.Implementations
 {
-   
-        public class HuAppruvalStatusRepository : GenericRepository<HUApprovalStatus>, IHuAppruvalStatusRepository
+    public class HuAppruvalStatusRepository : GenericRepository<HUApprovalStatus>, IHuAppruvalStatusRepository
+    {
+        private readonly DataContext _context;
+
+        public HuAppruvalStatusRepository(DataContext context) : base(context)
         {
-            private readonly DataContext _context;
-            public HuAppruvalStatusRepository(DataContext context) : base(context)
-            {
-                _context = context;
-            }
+            _context = context;
+        }
 
         public override async Task<ActionResponse<IEnumerable<HUApprovalStatus>>> GetAsync()
         {

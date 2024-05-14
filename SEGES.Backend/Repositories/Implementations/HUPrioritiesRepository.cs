@@ -1,7 +1,6 @@
 ﻿using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Shared.Entities;
 using SEGES.Shared.Responses;
-using SEGES.Shared;
 using Microsoft.EntityFrameworkCore;
 using SEGES.Backend.Repositories.Interfaces;
 using SEGES.Backend.Helpers;
@@ -12,10 +11,12 @@ namespace SEGES.Backend.Repositories.Implementations
     public class HUPrioritiesRepository : GenericRepository<HUPriority>, IHUPrioritiesRepository
     {
         private readonly DataContext _context;
+
         public HUPrioritiesRepository(DataContext context) : base(context)
         {
             _context = context;
         }
+
         public override async Task<ActionResponse<HUPriority>> GetAsync(int id)
         {
             var priority = await _context.HUPriorities.FindAsync(id);
@@ -33,6 +34,7 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = priority
             };
         }
+
         public override async Task<ActionResponse<IEnumerable<HUPriority>>> GetAsync()
         {
             var HUPriority = await _context.HUPriorities
@@ -61,11 +63,9 @@ namespace SEGES.Backend.Repositories.Implementations
             };
         }
 
-
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.HUPriorities.AsQueryable();
-
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {

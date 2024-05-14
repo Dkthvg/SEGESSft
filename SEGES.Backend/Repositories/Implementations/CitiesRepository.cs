@@ -1,23 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEGES.Backend.Helpers;
 using SEGES.Backend.Repositories.Interfaces;
-using SEGES.Shared;
 using SEGES.Shared.Entities;
 using SEGES.Shared.Responses;
 using SEGES.Shared.DTOs;
 
-
 namespace SEGES.Backend.Repositories.Implementations
 {
-    
-        public class CitiesRepository : GenericRepository<City>, ICitiesRepository
-        {
-            private readonly DataContext _context;
+    public class CitiesRepository : GenericRepository<City>, ICitiesRepository
+    {
+        private readonly DataContext _context;
 
-            public CitiesRepository(DataContext context) : base(context)
-            {
-                _context = context;
-            }
+        public CitiesRepository(DataContext context) : base(context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<City>> GetComboAsync(int stateId)
         {

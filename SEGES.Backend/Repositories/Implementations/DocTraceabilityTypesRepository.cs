@@ -1,23 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SEGES.Backend.Repositories.Interfaces;
-using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Shared.Entities;
 using SEGES.Shared.Responses;
-using SEGES.Shared;
-using static SEGES.Backend.Repositories.Implementations.DocTraceabilityTypesRepository;
 using SEGES.Backend.Helpers;
 using SEGES.Shared.DTOs;
 
 namespace SEGES.Backend.Repositories.Implementations
 {
-    
-        public class DocTraceabilityTypesRepository : GenericRepository<DocTraceabilityType>, IDocTraceabilityTypesRepository
+    public class DocTraceabilityTypesRepository : GenericRepository<DocTraceabilityType>, IDocTraceabilityTypesRepository
+    {
+        private readonly DataContext _context;
+
+        public DocTraceabilityTypesRepository(DataContext context) : base(context)
         {
-            private readonly DataContext _context;
-            public DocTraceabilityTypesRepository(DataContext context) : base(context)
-            {
-                _context = context;
-            }
+            _context = context;
+        }
 
         public override async Task<ActionResponse<IEnumerable<DocTraceabilityType>>> GetAsync()
         {
@@ -30,6 +27,7 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = docTraceabilityTypes
             };
         }
+
         public override async Task<ActionResponse<IEnumerable<DocTraceabilityType>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.DocTraceabilityTypes.AsQueryable();
@@ -49,7 +47,6 @@ namespace SEGES.Backend.Repositories.Implementations
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
             var queryable = _context.DocTraceabilityTypes.AsQueryable();
-
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
@@ -82,6 +79,5 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = type
             };
         }
-
     }
 }
