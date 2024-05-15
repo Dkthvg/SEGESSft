@@ -1,3 +1,5 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
@@ -15,6 +17,7 @@ namespace SEGES.FrontEnd.Pages.HUPriorities
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
+        [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
         private async Task CreateAsync()
         {
@@ -25,7 +28,7 @@ namespace SEGES.FrontEnd.Pages.HUPriorities
                 await SweetAlertService.FireAsync("Error", message);
                 return;
             }
-
+            await BlazoredModal.CloseAsync(ModalResult.Ok());
             Return();
 
             var toast = SweetAlertService.Mixin(new SweetAlertOptions

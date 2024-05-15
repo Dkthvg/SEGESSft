@@ -1,5 +1,8 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using SEGES.FrontEnd.Pages.Auth;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.Entities;
 using System.Net;
@@ -16,11 +19,24 @@ namespace SEGES.FrontEnd.Pages.HUStatuses
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         public List<HUStatus>? HUStatuses { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+
+        private async Task ShowModalAsync()
+        {
+
+            IModalReference modalReference;
+            modalReference= Modal.Show<HUStatusCreate>();
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
@@ -138,7 +154,7 @@ namespace SEGES.FrontEnd.Pages.HUStatuses
                 }
                 return;
             }
-
+                 await LoadAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,

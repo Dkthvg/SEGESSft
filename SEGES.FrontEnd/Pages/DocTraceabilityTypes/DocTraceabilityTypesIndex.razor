@@ -3,7 +3,8 @@
 <h3>Tipo de Trazabilidad Documental</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/doctraceabiltyTypes/create">Nuevo Tipo</a>
+  
+    <a class="btn btn-primary btn-sm float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-square" /> Nuevo Tipo</a>
 </div>
 <Filter PlaceHolder="Buscar..." Callback=@FilterCallBack />
 <GenericList2 MyList="DocTraceabilityTypes">
@@ -22,6 +23,7 @@
             <thead>
                 <tr>
                     <th>Tipo</th>
+                    <th>Acciones</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,9 +33,11 @@
                     <tr>
 
                         <td>@type.Name</td>
+                       
                         <td>
-                            <a class="btn btn-info btn-sm" href="/doctraceabilitytype/edit/@type.DocTraceabilityTypeId">Editar</a>
-                            <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(type))>Borrar</button>
+                            <a @onclick=@(() => ShowModalAsync(type.DocTraceabilityTypeId, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
+                            <button @onclick=@(() => DeleteAsync(type)) class="btn btn-sm btn-danger"><i class="bi bi-trash" /> Borrar</button>
+                        
                         </td>
                     </tr>
                 }

@@ -1,5 +1,8 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using SEGES.FrontEnd.Pages.DocTraceabilityTypes;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.Entities;
 using System.Net;
@@ -16,11 +19,33 @@ namespace SEGES.FrontEnd.Pages.HUPriorities
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
         public List<HUPriority>? huPriorities { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<HUPrioritiesEdit>(string.Empty, new ModalParameters().Add("PriorityId", id));
+            }
+
+            else
+            {
+                modalReference = Modal.Show<HUPrioritiesCreate>();
+            }
+
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
@@ -136,7 +161,7 @@ namespace SEGES.FrontEnd.Pages.HUPriorities
                 }
                 return;
             }
-
+            await LoadAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,

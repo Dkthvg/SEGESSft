@@ -1,5 +1,8 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using SEGES.FrontEnd.Pages.DocTraceabilityTypes;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.Entities;
 using System.Net;
@@ -18,11 +21,34 @@ namespace SEGES.FrontEnd.Pages.HUApprovalStatuses
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         public List<HUApprovalStatus>? hUApprovalStatuses { get; set; }
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
         }
+
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<HUApprovalStatusEdit>(string.Empty, new ModalParameters().Add("StatusId", id));
+            }
+
+            else
+            {
+                modalReference = Modal.Show<HUApprovalStatusCreate>();
+            }
+
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
+        }
+
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
             RecordsNumber = recordsnumber;
@@ -130,6 +156,7 @@ namespace SEGES.FrontEnd.Pages.HUApprovalStatuses
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
                 {
+                   
                     NavigationManager.NavigateTo("/HUApprovalStatus");
                 }
                 else
@@ -138,8 +165,9 @@ namespace SEGES.FrontEnd.Pages.HUApprovalStatuses
                     await SweetAlertService.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
                 }
                 return;
+             
             }
-
+            await LoadAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
