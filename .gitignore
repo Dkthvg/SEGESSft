@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /SEGES.FrontEnd/Client/Program.cs
 /SEGES.Backend/Program.cs
 /SEGES.FrontEnd/Program.cs
+/SEGES.Backend/appsettings.Development.json
