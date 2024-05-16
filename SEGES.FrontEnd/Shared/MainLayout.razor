@@ -1,13 +1,17 @@
 ﻿@inherits LayoutComponentBase
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
     <RadzenComponents/>
     <main>
-        <div class="top-row px-4">
-            <AuthLinks />
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">Acerca de</a>
+        <div style="height: 3.5rem;">
+            <RadzenMenu Style="height: 3.5rem; flex-direction: row-reverse">
+                <AuthLinks />
+                @* <RadzenMenuItem Text="Iniciar Sesión" Path="/Login" Icon="login"></RadzenMenuItem> *@
+                @* <RadzenMenuItem Text="Registrarse" Path="/Register" Icon="person_add"></RadzenMenuItem> *@
+            </RadzenMenu>
         </div>
 
         <article class="content px-4">

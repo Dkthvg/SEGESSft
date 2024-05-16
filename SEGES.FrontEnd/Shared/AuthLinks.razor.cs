@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Blazored.Modal.Services;
 using SEGES.FrontEnd.Pages.Auth;
 
+
 namespace SEGES.FrontEnd.Shared
 {
     public partial class AuthLinks
@@ -25,7 +26,8 @@ namespace SEGES.FrontEnd.Shared
         }
         private void ShowModal()
         {
-            Modal.Show<Login>();
+            //Modal.Show<Login>();
+            DialogService.OpenAsync<Login>("Login Modal");
         }
     }
 }
