@@ -2,7 +2,7 @@
 <h3>Prioridades de Historias de Usuario</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/HUPriorities/create">Nueva Prioridad</a>
+       <a class="btn btn-primary btn-sm float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-square" /> Nueva Prioridad</a>
 </div>
 <Filter PlaceHolder="Buscar..." Callback=@FilterCallBack />
 <GenericList2 MyList="huPriorities">
@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>Estado</th>
+                    <th>Acciones</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,8 +32,9 @@
 
                         <td>@priority.Name</td>
                         <td>
-                            <a class="btn btn-info btn-sm" href="/HUPriorities/edit/@priority.PriorityId">Editar</a>
-                            <button @onclick=@( () => DeleteAsync(priority) ) class="btn btn-sm btn-danger">Borrar</button>
+                            <a @onclick=@(() => ShowModalAsync(@priority.PriorityId, true)) class="btn btn-sm btn-warning"><i class="bi bi-pencil" /> Editar</a>
+                            <button @onclick=@(() => DeleteAsync(priority)) class="btn btn-sm btn-danger"><i class="bi bi-trash" /> Borrar</button>
+
                         </td>
                     </tr>
                 }

@@ -1,6 +1,9 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using SEGES.FrontEnd.Pages.Countries;
 using SEGES.FrontEnd.Repositories;
 using SEGES.FrontEnd.Shared;
 using SEGES.Shared.Entities;
@@ -22,12 +25,35 @@ namespace SEGES.FrontEnd.Pages.DocTraceabilityTypes
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
+
 
         public List<DocTraceabilityType>? DocTraceabilityTypes { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+
+        private async Task ShowModalAsync(int id = 0, bool isEdit = false)
+        {
+            IModalReference modalReference;
+
+            if (isEdit)
+            {
+                modalReference = Modal.Show<DocTraceabilityEdit>(string.Empty, new ModalParameters().Add("TraceabilityTypeID", id));
+            }
+                                                                                                     
+            else
+            {
+                modalReference = Modal.Show<DocTraceabilityTypeCreate>();
+            }
+
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
         }
         private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
@@ -146,7 +172,7 @@ namespace SEGES.FrontEnd.Pages.DocTraceabilityTypes
                 }
                 return;
             }
-
+          await LoadAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,
@@ -155,6 +181,7 @@ namespace SEGES.FrontEnd.Pages.DocTraceabilityTypes
                 Timer = 3000
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Registro borrado con éxito.");
+           
         }
 
     }

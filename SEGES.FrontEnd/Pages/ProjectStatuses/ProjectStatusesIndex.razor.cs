@@ -1,5 +1,9 @@
+using Blazored.Modal;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using SEGES.FrontEnd.Pages.Auth;
+using SEGES.FrontEnd.Pages.HUStatuses;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.Entities;
 using System.Net;
@@ -16,12 +20,25 @@ namespace SEGES.FrontEnd.Pages.ProjectStatuses
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
         public List<ProjectStatus>? ProjectStatuses { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
         }
-        private async Task SelectedRecordsNumberAsync(int recordsnumber)
+    
+        private async Task ShowModalAsync()
+        {
+
+            IModalReference modalReference;
+            modalReference = Modal.Show<ProjectStatusCreate>();
+            var result = await modalReference.Result;
+            if (result.Confirmed)
+            {
+                await LoadAsync();
+            }
+        }
+            private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
             RecordsNumber = recordsnumber;
             int page = 1;
@@ -136,7 +153,7 @@ namespace SEGES.FrontEnd.Pages.ProjectStatuses
                 }
                 return;
             }
-
+            await LoadAsync();
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
                 Toast = true,

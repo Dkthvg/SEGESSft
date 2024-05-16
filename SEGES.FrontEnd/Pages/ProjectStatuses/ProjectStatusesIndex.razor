@@ -2,7 +2,7 @@
 <h3>Estado de Proyectos</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/ProjectStatuses/create">Nuevo Estado</a>
+    <a class="btn btn-primary" @onclick=@(() => ShowModalAsync())> <i class="bi bi-plus-square" /> Nuevo Estado</a>
 </div>
 <Filter PlaceHolder="Buscar..." Callback=@FilterCallBack />
 <GenericList2 MyList="ProjectStatuses">
@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,8 +30,10 @@
 
                         <td>@status.Name</td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button @onclick=@( () => DeleteAsync(status) ) class="btn btn-sm btn-danger">Borrar</button>
+                            <a class="btn btn-sm btn-warning"><i class="bi bi-pencil"/>Editar</a>
+                            <button @onclick=@( () => DeleteAsync(status) ) class="btn btn-sm btn-danger"><i class="bi bi-trash" />Borrar</button>
+
+                            
                         </td>
                     </tr>
                 }

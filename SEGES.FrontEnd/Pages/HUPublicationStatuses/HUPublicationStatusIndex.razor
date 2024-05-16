@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>Estado</th>
+                    <th>Acciones</th>
                     <th></th>
                 </tr>
             </thead>
@@ -31,8 +32,8 @@
 
                         <td>@status.Name</td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button @onclick=@( () => DeleteAsync(status) ) class="btn btn-sm btn-danger">Borrar</button>
+                            <a class="btn btn-sm btn-warning"><i class="bi bi-pencil" />Editar</a>
+                            <button @onclick=@( () => DeleteAsync(status) ) class="btn btn-sm btn-danger"><i class="bi bi-trash" />Borrar</button>
                         </td>
                     </tr>
                 }
