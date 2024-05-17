@@ -2,7 +2,7 @@
 <h3>Estado de Proyectos</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" @onclick=@(() => ShowModalAsync())> <i class="bi bi-plus-square" /> Nuevo Estado</a>
+    <a class="btn btn-primary float-end" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-square"/> Nuevo Estado</a>
 </div>
 <Filter PlaceHolder="Buscar..." Callback=@FilterCallBack />
 <GenericList2 MyList="ProjectStatuses">
