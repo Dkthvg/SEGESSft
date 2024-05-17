@@ -26,8 +26,14 @@ namespace SEGES.FrontEnd.Shared
         }
         private void ShowModal()
         {
-            //Modal.Show<Login>();
-            DialogService.OpenAsync<Login>("Login Modal");
+            var options = new Blazored.Modal.ModalOptions
+            {
+                Size=Blazored.Modal.ModalSize.Medium,
+                HideCloseButton = false
+            };
+
+            Modal.Show<Login>("",options);
+            //DialogService.OpenAsync<Login>("Login Modal");
         }
     }
 }

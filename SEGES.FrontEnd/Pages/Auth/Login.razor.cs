@@ -2,6 +2,7 @@ using Blazored.Modal;
 using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
+using Radzen;
 using SEGES.FrontEnd.Repositories;
 using SEGES.FrontEnd.Services;
 using SEGES.Shared.DTOs;
@@ -12,6 +13,8 @@ namespace SEGES.FrontEnd.Pages.Auth
     {
         private LoginDTO loginDTO = new();
         private bool wasClose;
+
+        
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
@@ -24,8 +27,13 @@ namespace SEGES.FrontEnd.Pages.Auth
             wasClose = true;
             await BlazoredModal.CloseAsync(ModalResult.Ok());
         }
-        private async Task LoginAsync()
+        private async Task LoginAsync(LoginArgs args)
         {
+            await Console.Out.WriteLineAsync("se llamó el loginasync");
+            
+            loginDTO.Email = args.Username;
+            loginDTO.Password = args.Password;
+            await Console.Out.WriteLineAsync("user " + loginDTO.Email);
             if (wasClose)
             {
                 NavigationManager.NavigateTo("/");
@@ -41,6 +49,16 @@ namespace SEGES.FrontEnd.Pages.Auth
 
             await LoginService.LoginAsync(responseHttp.Response!.Token);
             NavigationManager.NavigateTo("/");
+        }
+
+        private void RecoverPassword()
+        {
+            NavigationManager.NavigateTo("/RecoverPassword");
+        }
+
+        private void Register()
+        {
+            NavigationManager.NavigateTo("/register");
         }
     }
 }
