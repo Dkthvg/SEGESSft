@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /SEGES.Backend/Program.cs
 /SEGES.FrontEnd/Program.cs
 /SEGES.Backend/appsettings.Development.json
+/SEGES.Backend/Data/CountriesStatesCities.sql
