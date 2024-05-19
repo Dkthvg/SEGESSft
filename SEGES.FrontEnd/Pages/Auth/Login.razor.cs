@@ -29,7 +29,7 @@ namespace SEGES.FrontEnd.Pages.Auth
         }
         private async Task LoginAsync(LoginArgs args)
         {
-            await Console.Out.WriteLineAsync("se llamó el loginasync");
+            await Console.Out.WriteLineAsync("se llamï¿½ el loginasync");
             
             loginDTO.Email = args.Username;
             loginDTO.Password = args.Password;
