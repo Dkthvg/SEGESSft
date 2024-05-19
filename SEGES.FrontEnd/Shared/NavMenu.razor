@@ -1,111 +1,59 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">SEGES</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
+﻿@inject NavigationManager NavigationManager
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="countries">
-                        <span class="bi bi-globe-americas" aria-hidden="true"></span> Países
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
+<RadzenLayout>
+  <RadzenHeader>
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+      <RadzenLabel Text="SEGES" Visible="@sidebar1Expanded" />
+      <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
+    </RadzenStack>
+  </RadzenHeader>
 
 
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="DocTraceabilityType">
-                        <span class="bi bi-file-earmark-medical" aria-hidden="true"></span> Tipos de Traza Documental
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
+        <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
+            <RadzenStack AlignItems="AlignItems.Center">
 
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="HUApprovalStatus">
-                        <span class="bi bi-person-check-fill" aria-hidden="true"></span> Estado de Aprobación de Historias de Usuario
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
+            @if (sidebar1Expanded)
+            {
+                <RadzenPanelMenu Style="width:310px; height:100%">
+                    <AuthorizeView Roles="Admin">
+                        <Authorized>
+                            <RadzenPanelMenuItem Text="Tablas Maestras" Icon="table_view">
+                                <RadzenPanelMenuItem Text="Países/Municipios/Ciudades" Path="countries" Icon="public"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Tipos de Traza Documental" Path="DocTraceabilityType" Icon="snippet_folder"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Estado de Aprobación de HU" Path="HUApprovalStatus" Icon="attach_file"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Prioridades de HU" Path="HUPriorities" Icon="perm_media"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Estados Publicación de HU" Path="HUPublicationStatus" Icon="announcement"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Estados de Historias de Usuario" Path="HUStatus" Icon="announcement"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Módulos del Sistema" Path="modules" Icon="announcement"></RadzenPanelMenuItem>
+                                <RadzenPanelMenuItem Text="Estado de Proyectos" Path="ProjectStatuses" Icon="announcement"></RadzenPanelMenuItem>
+                            </RadzenPanelMenuItem>
+                        </Authorized>
+                    </AuthorizeView>
+                </RadzenPanelMenu>
+            }
+            else
+            {
+                <RadzenPanelMenu>
 
+                    <AuthorizeView Roles="Admin">
+                        <Authorized>
+                            <RadzenPanelMenuItem Text="Tablas Maestras" Icon="table_view" Path="countries"></RadzenPanelMenuItem>
+                            @* <RadzenStack AlignItems="AlignItems.Center">
+                                <RadzenIcon Icon="table_view" onclick="@(() =>GoTo("countries"))" />
+                            </RadzenStack> *@
+                        </Authorized>
+                    </AuthorizeView>
+                </RadzenPanelMenu>
+            }
+        </RadzenStack>
+        </RadzenSidebar>
+</RadzenLayout>
 
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="HUPriorities">
-                        <span class="bi bi-list-ol" aria-hidden="true"></span>Prioridades de Historias de Usuario
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
-
-        <AuthorizeView Roles="User, Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="HUPublicationStatus">
-                        <span class="bi bi-share-fill" aria-hidden="true"></span>Estados de Publicación de Historias de Usuario
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
-
-        <AuthorizeView Roles="User, Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="HUStatus">
-                        <span class="bi bi-check2-square" aria-hidden="true"></span>Estados de Historias de Usuario
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
-
-        <AuthorizeView Roles="Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="modules">
-                        <span class="bi bi-bar-chart-steps" aria-hidden="true"></span>Módulos del Sistema
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
-
-        <AuthorizeView Roles="User, Admin">
-            <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="ProjectStatuses">
-                        <span class="bi bi-check-all" aria-hidden="true"></span>Estado de Proyectos
-                    </NavLink>
-                </div>
-            </Authorized>
-        </AuthorizeView>
-    </nav>
-</div>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    bool sidebar1Expanded = true;
+    private void GoTo(string path)
     {
-        collapseNavMenu = !collapseNavMenu;
+        NavigationManager.NavigateTo(path);
     }
 }

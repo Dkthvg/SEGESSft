@@ -1,23 +1,29 @@
 ﻿@inject Radzen.DialogService DialogService
 
+
 <AuthorizeView>
-    <Authorized>
-        <RadzenMenuItem Text="Cerrar Sesión" Path="Logout"></RadzenMenuItem>
-        <span>
-            <RadzenMenuItem Text="@($"Hola, {userName}")" Path="EditUser"></RadzenMenuItem>
-        </span>
-        @if (!string.IsNullOrEmpty(photoUser))
-        {
-            <div class="mx-2">
-                <a href="EditUser">
-                    <img src="@photoUser" width="50" height="50" style="border-radius:50%" />
-                </a>
-            </div>
-        }
-      
-    </Authorized>
+    
+        <Authorized >
+        
+            <span>
+                <RadzenMenuItem Text="@($"Hola, {userName}")" Path="EditUser"></RadzenMenuItem>
+            </span>
+            @if (!string.IsNullOrEmpty(photoUser))
+            {
+                <div class="mx-2">
+                    <a href="EditUser">
+                        <img src="@photoUser" width="50" height="50" style="border-radius:50%" />
+                    </a>
+                </div>
+            }
+            <RadzenMenuItem Text="Cerrar Sesión" Path="Logout" Style="padding-left: 3em;" Icon="logout"></RadzenMenuItem>
+        
+        </Authorized>
+    
     <NotAuthorized>
         <RadzenMenuItem Click="ShowModal" Text="Iniciar Sesión" Icon="login"></RadzenMenuItem>
         <RadzenMenuItem Text="Registrarse" Path="register" Icon="person_add"></RadzenMenuItem>
     </NotAuthorized>
 </AuthorizeView>
+
+

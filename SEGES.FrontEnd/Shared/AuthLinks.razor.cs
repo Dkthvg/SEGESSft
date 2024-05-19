@@ -13,6 +13,8 @@ namespace SEGES.FrontEnd.Shared
 
         [CascadingParameter]
         private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
+        [CascadingParameter] IModalService Modal {  get; set; } = default!;
+
 
         protected override async Task OnParametersSetAsync()
         {
@@ -40,7 +42,7 @@ namespace SEGES.FrontEnd.Shared
             };
 
             Modal.Show<Login>("",options);
-            //DialogService.OpenAsync<Login>("Login Modal");
+            
         }
     }
 }
