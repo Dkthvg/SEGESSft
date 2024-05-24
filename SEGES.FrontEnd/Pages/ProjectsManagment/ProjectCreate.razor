@@ -1,7 +1,67 @@
 ﻿@page "/projectsmanagment/projectCreate"
+@using SEGES.Shared.DTOs
 <div>
-    <RadzenCard Class="rz-my-12 rz-mx-auto text-center" Style="max-width: 720px">
-        <RadzenText TextStyle="TextStyle.H1" class="rz-color-secondary-darker"><strong>Página en Construcción</strong></RadzenText>
-    </RadzenCard>
+    <RadzenTemplateForm Data="@project" Submit="@(async (Project projectData) => await SaveDataSync())">
+         <RadzenRow Gap="2rem" Class="rz-p-0 rz-p-lg-4">
+             <RadzenColumn Size="12" SizeMD="6">
+                 <RadzenStack>
+                    <RadzenFieldset Text="Información del Proyecto">
+                         <RadzenStack  Gap="1rem">
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Nombre"  />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        <RadzenTextBox Style="width: 100%;" Name="NombreProyecto" @bind-Value="project.ProjectName" Placeholder="Nombre del proyecto" />
+                                    </RadzenColumn>
+                                </RadzenColumn>
+                            </RadzenRow>
+
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Descripción" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        <RadzenTextBox Style="width: 100%; height: 100px; " Name="DescrpcionProyecto" @bind-Value="project.ProjectDescription" Placeholder="Descripción del proyecto" />
+                                    </RadzenColumn>
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Fecha Inicio"  />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDatePicker Style="width: 100%;" Name="FechaInicio" @bind-Value="project.ProjectStartDate" DateFormat="dd/MM/yyyy" Min="_minDate" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Fecha Fin" />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDatePicker Style="width: 100%;" Name="FechaFin" @bind-Value="project.ProjectEndDate" DateFormat="dd/MM/yyyy" Min="@project.ProjectStartDate" />
+                                </RadzenColumn>
+                            </RadzenRow>
+                            <RadzenRow AlignItems="AlignItems.Center">
+                                <RadzenColumn Size="12" SizeMD="4">
+                                    <RadzenLabel Text="Estado"  />
+                                </RadzenColumn>
+                                <RadzenColumn Size="12" SizeMD="8">
+                                    <RadzenDropDown @bind-Value="project.ProjectStatus_ID" Placeholder="Selecciona un estado" Data="@statuses" Style="width: 100%;" TextProperty="Name" ValueProperty="ProjectStatusId" Name="EstadoProyecto">
+                                    </RadzenDropDown>
+                                </RadzenColumn>
+                            </RadzenRow>
+                         </RadzenStack>
+                     </RadzenFieldset>
+                 </RadzenStack>
+             </RadzenColumn>
+         </RadzenRow>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
+            <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
+            @* <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" /> *@
+        </RadzenStack>
+    </RadzenTemplateForm>
 
 </div>

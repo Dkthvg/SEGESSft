@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SEGES.Backend.UnitsOfWork.Implementations;
 using SEGES.Backend.UnitsOfWork.Interfaces;
 using SEGES.Shared.DTOs;
@@ -61,6 +62,13 @@ namespace SEGES.Backend.Controllers
                 return Ok(action.Result);
             }
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("combo")]
+        public async Task<IActionResult> GetComboAsync()
+        {
+            return Ok(await _projectStatusesUnitOfWork.GetComboAsync());
         }
 
     }

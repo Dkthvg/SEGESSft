@@ -79,5 +79,12 @@ namespace SEGES.Backend.Repositories.Implementations
                 Result = type
             };
         }
+
+        public async Task<IEnumerable<ProjectStatus>> GetComboAsync()
+        {
+            return await _context.ProjectStatuses
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
     }
 }

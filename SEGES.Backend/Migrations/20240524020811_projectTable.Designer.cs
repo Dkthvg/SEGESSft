@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SEGES.Backend;
 
@@ -11,9 +12,11 @@ using SEGES.Backend;
 namespace SEGES.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240524020811_projectTable")]
+    partial class projectTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -523,10 +526,11 @@ namespace SEGES.Backend.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<DateTime?>("ProjectEndDate")
+                    b.Property<DateTime>("ProjectEndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProjectManager_ID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProjectName")
@@ -534,24 +538,23 @@ namespace SEGES.Backend.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<DateTime?>("ProjectStartDate")
+                    b.Property<DateTime>("ProjectStartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProjectStatus_ID")
+                    b.Property<int>("ProjectStatus_ID")
                         .HasColumnType("int");
 
                     b.Property<string>("RequirementsEngineer_ID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("StakeHolder_ID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ProjectId");
 
                     b.HasIndex("ProjectManager_ID");
-
-                    b.HasIndex("ProjectName")
-                        .IsUnique();
 
                     b.HasIndex("ProjectStatus_ID");
 
@@ -1122,22 +1125,26 @@ namespace SEGES.Backend.Migrations
                     b.HasOne("SEGES.Shared.Entities.User", "ProjectManager")
                         .WithMany()
                         .HasForeignKey("ProjectManager_ID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.ProjectStatus", "ProjectStatus")
                         .WithMany()
                         .HasForeignKey("ProjectStatus_ID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.User", "RequirementsEngineer")
                         .WithMany()
                         .HasForeignKey("RequirementsEngineer_ID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.User", "StakeHolder")
                         .WithMany()
                         .HasForeignKey("StakeHolder_ID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("ProjectManager");
 

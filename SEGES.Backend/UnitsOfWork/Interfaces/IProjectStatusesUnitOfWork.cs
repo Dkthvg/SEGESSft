@@ -12,5 +12,6 @@ namespace SEGES.Backend.UnitsOfWork.Interfaces
         Task<ActionResponse<IEnumerable<ProjectStatus>>> GetAsync(PaginationDTO pagination);
 
         Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination);
+        Task<IEnumerable<ProjectStatus>> GetComboAsync();
     }
 }

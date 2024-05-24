@@ -15,7 +15,6 @@ namespace SEGES.Backend
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
             modelBuilder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
@@ -23,7 +22,40 @@ namespace SEGES.Backend
             modelBuilder.Entity<Goal>().HasKey(g => g.GoalId);
             modelBuilder.Entity<Module>().HasKey(c => c.ModuleId);
             modelBuilder.Entity<Permission>().HasKey(p => p.Id);
+
             modelBuilder.Entity<Project>().HasKey(c => c.ProjectId);
+
+            modelBuilder.Entity<Project>()
+               .HasOne(p => p.StakeHolder)
+               .WithMany()
+               .HasForeignKey(p => p.StakeHolder_ID);
+
+            modelBuilder.Entity<Project>()
+                .Property(p => p.ProjectId)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.ProjectManager)
+                .WithMany()
+                .HasForeignKey(p => p.ProjectManager_ID);
+
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.RequirementsEngineer)
+                .WithMany()
+                .HasForeignKey(p => p.RequirementsEngineer_ID);
+
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.ProjectStatus)
+                .WithMany()
+                .HasForeignKey(p => p.ProjectStatus_ID);
+
+            modelBuilder.Entity<Project>()
+                .Property(p => p.CreationDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Project>()
+                .HasIndex(p => p.ProjectName).IsUnique();
+
             modelBuilder.Entity<KPI>().HasKey(k => k.KPI_ID);
             modelBuilder.Entity<SecundaryKPI>().HasKey(sk => sk.SecundaryKPI_Id);
             modelBuilder.Entity<Rel_RolPermission>().HasKey(rp => new { rp.Role_ID, rp.Permission_ID });

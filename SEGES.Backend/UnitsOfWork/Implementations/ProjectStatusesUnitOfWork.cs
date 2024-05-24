@@ -21,5 +21,7 @@ namespace SEGES.Backend.UnitsOfWork.Implementations
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _projectStatusesRepository.GetTotalPagesAsync(pagination);
 
         public override async Task<ActionResponse<IEnumerable<ProjectStatus>>> GetAsync(PaginationDTO pagination) => await _projectStatusesRepository.GetAsync(pagination);
+
+        public async Task<IEnumerable<ProjectStatus>> GetComboAsync() => await _projectStatusesRepository.GetComboAsync();
     }
 }
