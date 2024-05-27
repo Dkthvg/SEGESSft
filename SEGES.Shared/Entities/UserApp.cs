@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SEGES.Shared.Entities
 {
-    public class User : IdentityUser
+    public class UserApp : IdentityUser
     {
         
         [Display(Name = "Documento")]

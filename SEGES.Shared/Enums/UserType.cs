@@ -8,6 +8,17 @@ namespace SEGES.Shared.Enums
         Admin,
 
         [Description("Usuario")]
-        User
+        User,
+
+        [Description("Ingeniero de Requisitos")]
+        ReqEngineer,
+
+        [Description("Gerente de Proyecto")]
+        ProjectManager,
+
+        [Description("Interesado")]
+        StakeHolder
+
+
     }
 }

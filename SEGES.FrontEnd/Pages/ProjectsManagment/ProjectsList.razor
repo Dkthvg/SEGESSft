@@ -1,0 +1,16 @@
+﻿@page "/projectsmanagment/projectsList"
+<h3>ProjectsList</h3>
+
+
+<RadzenDataGrid  AllowFiltering="true"  AllowPaging="true" PageSize="10" AllowSorting="true"
+                Data="@projectsInfo">
+
+        <Columns>
+            <RadzenDataGridColumn Property="ProjectName" Title="Nombre"/>
+            <RadzenDataGridColumn Property="CreationDate" Title="Fecha de Creación" />
+            <RadzenDataGridColumn Property="ProjectManagerName" Title="Gerente de Proyecto" />
+            <RadzenDataGridColumn Property="ReqEngName" Title="Ingeniero de Requisitos" />
+        <RadzenDataGridColumn Property="StakeHolderName" Title="Interesado" />
+        <RadzenDataGridColumn Property="ProjectStatusName" Title="Estado" />
+        </Columns>
+</RadzenDataGrid>

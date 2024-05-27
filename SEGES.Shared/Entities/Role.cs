@@ -20,7 +20,7 @@ namespace SEGES.Shared.Entities
         [MaxLength(1500, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         public string? RoleDescription { get; set; }
 
-        public List<User> Users { get; set; }
+        public List<UserApp> Users { get; set; }
         public List<Rel_RolPermission> RelPermissions { get; set; }
 
     }

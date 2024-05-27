@@ -14,7 +14,7 @@ namespace SEGES.FrontEnd.Pages.Auth
     [Authorize]
     public partial class EditUser
     {
-        private User? user;
+        private UserApp? user;
         private List<Country>? countries;
         private List<State>? states;
         private List<City>? cities;
@@ -45,7 +45,7 @@ namespace SEGES.FrontEnd.Pages.Auth
         }
         private async Task LoadUserAsyc()
         {
-            var responseHttp = await Repository.GetAsync<User>($"/api/accounts");
+            var responseHttp = await Repository.GetAsync<UserApp>($"/api/accounts");
             if (responseHttp.Error)
             {
                 if (responseHttp.HttpResponseMessage.StatusCode == HttpStatusCode.NotFound)
@@ -122,7 +122,7 @@ namespace SEGES.FrontEnd.Pages.Auth
 
         private async Task SaveUserAsync()
         {
-            var responseHttp = await Repository.PutAsync<User, TokenDTO>("/api/accounts", user!);
+            var responseHttp = await Repository.PutAsync<UserApp, TokenDTO>("/api/accounts", user!);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();

@@ -1,10 +1,16 @@
 ﻿@page "/projectsmanagment/projectCreate"
 @using SEGES.Shared.DTOs
-<div>
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(SEGES.FrontEnd.Client.Program).Assembly">
+<Found Context="routeData">
+<AuthorizeView Roles="ProjectManager">
+    <Authorized Context="authorizedContext">
     <RadzenTemplateForm Data="@project" Submit="@(async (Project projectData) => await SaveDataSync())">
+    
          <RadzenRow Gap="2rem" Class="rz-p-0 rz-p-lg-4">
              <RadzenColumn Size="12" SizeMD="6">
                  <RadzenStack>
+
                     <RadzenFieldset Text="Información del Proyecto">
                          <RadzenStack  Gap="1rem">
                             <RadzenRow AlignItems="AlignItems.Center">
@@ -46,15 +52,43 @@
                             </RadzenRow>
                             <RadzenRow AlignItems="AlignItems.Center">
                                 <RadzenColumn Size="12" SizeMD="4">
-                                    <RadzenLabel Text="Estado"  />
+                                    <RadzenLabel Text="Estado "  />
                                 </RadzenColumn>
                                 <RadzenColumn Size="12" SizeMD="8">
                                     <RadzenDropDown @bind-Value="project.ProjectStatus_ID" Placeholder="Selecciona un estado" Data="@statuses" Style="width: 100%;" TextProperty="Name" ValueProperty="ProjectStatusId" Name="EstadoProyecto">
                                     </RadzenDropDown>
                                 </RadzenColumn>
                             </RadzenRow>
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenLabel Text="Gerente de proyecto" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                                    <RadzenTextBox Disabled="true" Value="@CurrentUserName"  Style="width: 100%;" Name="Gerente_proyecto" />
+                                    </RadzenColumn>
+                                </RadzenRow>
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenLabel Text="Interesado" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        <RadzenDropDown @bind-Value="project.StakeHolder_ID" Placeholder="Selecciona un usuario" Data="@users" Style="width: 100%;" TextProperty="Firstname" ValueProperty="Id" Name="EstadoProyecto">
+                                        </RadzenDropDown>
+                                    </RadzenColumn>
+                                </RadzenRow>
+                                <RadzenRow AlignItems="AlignItems.Center">
+                                    <RadzenColumn Size="12" SizeMD="4">
+                                        <RadzenLabel Text="Ingeniero de Requisitos" />
+                                    </RadzenColumn>
+                                    <RadzenColumn Size="12" SizeMD="8">
+                                        <RadzenDropDown @bind-Value="project.RequirementsEngineer_ID" Placeholder="Selecciona un usuario" Data="@users" Style="width: 100%;" TextProperty="Firstname" ValueProperty="Id" Name="EstadoProyecto">
+                                        </RadzenDropDown>
+                                    </RadzenColumn>
+                                </RadzenRow>
+
                          </RadzenStack>
                      </RadzenFieldset>
+
                  </RadzenStack>
              </RadzenColumn>
          </RadzenRow>
@@ -62,6 +96,13 @@
             <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Save" />
             @* <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="cancel" Text="Cancel" Click="@Cancel" /> *@
         </RadzenStack>
-    </RadzenTemplateForm>
 
-</div>
+</RadzenTemplateForm>
+                             </Authorized>
+    </AuthorizeView>
+    </Found>
+        <NotFound>
+        
+        </NotFound>
+</Router>
+</CascadingAuthenticationState>

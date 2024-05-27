@@ -55,8 +55,11 @@ namespace SEGES.Backend
         {
             await _usersUnitOfWork.CheckRoleAsync(UserType.Admin.ToString());
             await _usersUnitOfWork.CheckRoleAsync(UserType.User.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.ReqEngineer.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.ProjectManager.ToString());
+            await _usersUnitOfWork.CheckRoleAsync(UserType.StakeHolder.ToString());
         }
-        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, UserType userType)
+        private async Task<UserApp> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, UserType userType)
         {
             var user = await _usersUnitOfWork.GetUserAsync(email);
             if (user == null)
@@ -64,7 +67,7 @@ namespace SEGES.Backend
                 var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Bello");
                 city ??= await _context.Cities.FirstOrDefaultAsync();
 
-                user = new User
+                user = new UserApp
                 {
                     FirstName = firstName,
                     LastName = lastName,

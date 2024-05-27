@@ -124,7 +124,7 @@ namespace SEGES.Backend.Controllers
 
         [HttpPut]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PutAsync(User user)
+        public async Task<IActionResult> PutAsync(UserApp user)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace SEGES.Backend.Controllers
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO model)
         {
-            User user = model;
+            UserApp user = model;
             if (!string.IsNullOrEmpty(model.Photo))
             {
                 var photoUser = Convert.FromBase64String(model.Photo);
@@ -242,7 +242,7 @@ namespace SEGES.Backend.Controllers
             return BadRequest("Email o contraseña incorrectos.");
         }
 
-        private async Task<ActionResponse<string>> SendConfirmationEmailAsync(User user)
+        private async Task<ActionResponse<string>> SendConfirmationEmailAsync(UserApp user)
         {
             var myToken = await _usersUnitOfWork.GenerateEmailConfirmationTokenAsync(user);
             var tokenLink = Url.Action("ConfirmEmail", "accounts", new
@@ -258,7 +258,7 @@ namespace SEGES.Backend.Controllers
                 $"<b><a href ={tokenLink}>Confirmar Email</a></b>");
         }
 
-        private TokenDTO BuildToken(User user)
+        private TokenDTO BuildToken(UserApp user)
         {
             var claims = new List<Claim>
             {

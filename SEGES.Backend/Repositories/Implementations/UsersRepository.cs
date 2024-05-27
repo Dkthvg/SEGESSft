@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SEGES.Shared.Responses;
 using SEGES.Backend.Repositories.Interfaces;
 using SEGES.Shared.Entities;
 using SEGES.Shared;
@@ -12,11 +13,11 @@ namespace SEGES.Backend.Repositories.Implementations
     public class UsersRepository : IUsersRepository
     {
         private readonly DataContext _context;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<UserApp> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<UserApp> _signInManager;
 
-        public UsersRepository(DataContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
+        public UsersRepository(DataContext context, UserManager<UserApp> userManager, RoleManager<IdentityRole> roleManager, SignInManager<UserApp> signInManager)
         {
             _context = context;
             _userManager = userManager;
@@ -24,17 +25,17 @@ namespace SEGES.Backend.Repositories.Implementations
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> AddUserAsync(User user, string password)
+        public async Task<IdentityResult> AddUserAsync(UserApp user, string password)
         {
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task AddUserToRoleAsync(User user, string roleName)
+        public async Task AddUserToRoleAsync(UserApp user, string roleName)
         {
             await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        public async Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword)
+        public async Task<IdentityResult> ChangePasswordAsync(UserApp user, string currentPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
@@ -51,19 +52,17 @@ namespace SEGES.Backend.Repositories.Implementations
             }
         }
 
-        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        public async Task<IdentityResult> ConfirmEmailAsync(UserApp user, string token)
         {
             return await _userManager.ConfirmEmailAsync(user, token);
         }
 
-        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        public async Task<string> GenerateEmailConfirmationTokenAsync(UserApp user)
         {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
-
-
-        public async Task<User> GetUserAsync(string email)
+        public async Task<UserApp> GetUserAsync(string email)
         {
             var user = await _context.Users
                 .Include(u => u.City!)
@@ -73,7 +72,7 @@ namespace SEGES.Backend.Repositories.Implementations
             return user!;
         }
 
-        public async Task<User> GetUserAsync(Guid userId)
+        public async Task<UserApp> GetUserAsync(Guid userId)
         {
             var user = await _context.Users
                 .Include(u => u.City!)
@@ -83,7 +82,7 @@ namespace SEGES.Backend.Repositories.Implementations
             return user!;
         }
 
-        public async Task<bool> IsUserInRoleAsync(User user, string roleName)
+        public async Task<bool> IsUserInRoleAsync(UserApp user, string roleName)
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
@@ -98,19 +97,26 @@ namespace SEGES.Backend.Repositories.Implementations
             await _signInManager.SignOutAsync();
         }
 
-        public async Task<string> GeneratePasswordResetTokenAsync(User user)
+        public async Task<string> GeneratePasswordResetTokenAsync(UserApp user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
-        public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
+        public async Task<IdentityResult> ResetPasswordAsync(UserApp user, string token, string password)
         {
             return await _userManager.ResetPasswordAsync(user, token, password);
         }
 
-        public async Task<IdentityResult> UpdateUserAsync(User user)
+        public async Task<IdentityResult> UpdateUserAsync(UserApp user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IEnumerable<UserApp>> GetComboAsync()
+        {
+            return await _context.Users
+                .OrderBy(c => c.FirstName)
+                .ToListAsync();
         }
     }
 }

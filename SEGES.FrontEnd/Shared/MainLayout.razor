@@ -29,13 +29,19 @@
                         <RadzenPanelMenuItem Text="Estados de Historias de Usuario" Path="HUStatus" Icon="announcement"></RadzenPanelMenuItem>
                         <RadzenPanelMenuItem Text="Estado de Proyectos" Path="ProjectStatuses" Icon="announcement"></RadzenPanelMenuItem>
                     </RadzenPanelMenuItem>
+                    <RadzenPanelMenuItem Text="Administrar Usuarios" Icon="manage_accounts" Path="usersadmin">
+
+                    </RadzenPanelMenuItem>
                 </Authorized>
             </AuthorizeView>
-            <AuthorizeView Roles="User">
+            <AuthorizeView Roles="ProjectManager">
                 <Authorized>
                     <RadzenPanelMenuItem Text="Administrar Proyectos" Icon="bookmark_add">
                         <RadzenPanelMenuItem Text="Crear Nuevo Proyecto" Path="/projectsmanagment/projectCreate" Icon="add">
                             
+                        </RadzenPanelMenuItem>
+                        <RadzenPanelMenuItem Text="Lista de Proyectos" Path="/projectsmanagment/projectsList" Icon="add">
+
                         </RadzenPanelMenuItem>
                     </RadzenPanelMenuItem>
                 </Authorized>

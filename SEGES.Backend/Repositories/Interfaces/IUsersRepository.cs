@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
+using SEGES.Shared.Responses;
 using System.Threading.Tasks;
 using System;
 
@@ -8,32 +9,34 @@ namespace SEGES.Backend.Repositories.Interfaces
 {
     public interface IUsersRepository
     {
-        Task<string> GeneratePasswordResetTokenAsync(User user);
+        Task<string> GeneratePasswordResetTokenAsync(UserApp user);
 
-        Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+        Task<IdentityResult> ResetPasswordAsync(UserApp user, string token, string password);
 
-        Task<string> GenerateEmailConfirmationTokenAsync(User user);
+        Task<string> GenerateEmailConfirmationTokenAsync(UserApp user);
 
-        Task<IdentityResult> ConfirmEmailAsync(User user, string token);
+        Task<IdentityResult> ConfirmEmailAsync(UserApp user, string token);
 
-        Task<User> GetUserAsync(string email);
+        Task<UserApp> GetUserAsync(string email);
 
-        Task<User> GetUserAsync(Guid userId);
+        Task<UserApp> GetUserAsync(Guid userId);
 
-        Task<IdentityResult> ChangePasswordAsync(User user, string currentPassword, string newPassword);
+        Task<IdentityResult> ChangePasswordAsync(UserApp user, string currentPassword, string newPassword);
 
-        Task<IdentityResult> UpdateUserAsync(User user);
+        Task<IdentityResult> UpdateUserAsync(UserApp user);
 
-        Task<IdentityResult> AddUserAsync(User user, string password);
+        Task<IdentityResult> AddUserAsync(UserApp user, string password);
 
         Task CheckRoleAsync(string roleName);
 
-        Task AddUserToRoleAsync(User user, string roleName);
+        Task AddUserToRoleAsync(UserApp user, string roleName);
 
-        Task<bool> IsUserInRoleAsync(User user, string roleName);
+        Task<bool> IsUserInRoleAsync(UserApp user, string roleName);
 
         Task<SignInResult> LoginAsync(LoginDTO model);
 
         Task LogoutAsync();
+        Task<IEnumerable<UserApp>> GetComboAsync();
+
     }
 }

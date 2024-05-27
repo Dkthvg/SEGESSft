@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SEGES.Backend
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<UserApp>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -81,7 +81,7 @@ namespace SEGES.Backend
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserApp> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<Permission> Permissions { get; set; }

@@ -10,6 +10,9 @@ namespace SEGES.FrontEnd.AuthenticationProviders
         {
             var anonimous = new ClaimsIdentity();
             var user = new ClaimsIdentity(authenticationType: "test");
+            var ReqEngineer = new ClaimsIdentity(authenticationType: "test");
+            var ProjectManager = new ClaimsIdentity(authenticationType: "test");
+            var StakeHolder = new ClaimsIdentity(authenticationType: "test");
             var admin = new ClaimsIdentity(new List<Claim>
             {
                 new Claim("FirstName", "admin"),

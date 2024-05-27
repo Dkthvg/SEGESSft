@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using SEGES.Backend.Helpers;
+using Microsoft.AspNetCore.Components.Authorization;
 
 
 
@@ -93,7 +94,9 @@ builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
 
 
-builder.Services.AddIdentity<User, IdentityRole>(x =>
+
+
+builder.Services.AddIdentity<UserApp, IdentityRole>(x =>
 {
     x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
     x.SignIn.RequireConfirmedEmail = true;
@@ -106,6 +109,7 @@ builder.Services.AddIdentity<User, IdentityRole>(x =>
     x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     x.Lockout.MaxFailedAccessAttempts = 3;
     x.Lockout.AllowedForNewUsers = true;
+    
 })
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();

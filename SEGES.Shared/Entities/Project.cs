@@ -31,13 +31,13 @@ namespace SEGES.Shared.Entities
         public DateTime CreationDate { get; set; }
 
         public string? StakeHolder_ID { get; set; }
-        public User? StakeHolder { get; set; }
+        public UserApp? StakeHolder { get; set; }
 
         public string? ProjectManager_ID { get; set; }
-        public User? ProjectManager { get; set; }
+        public UserApp? ProjectManager { get; set; }
 
         public string? RequirementsEngineer_ID { get; set; }
-        public User? RequirementsEngineer { get; set; }
+        public UserApp? RequirementsEngineer { get; set; }
 
         public int? ProjectStatus_ID { get; set; }
         public ProjectStatus? ProjectStatus { get; set; }

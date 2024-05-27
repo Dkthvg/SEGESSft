@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SEGES.Shared.DTOs
 {
-    public class UserDTO : User
+    public class UserDTO : UserApp
     {
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
