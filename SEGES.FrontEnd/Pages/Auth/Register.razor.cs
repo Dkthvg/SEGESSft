@@ -22,6 +22,7 @@ namespace SEGES.FrontEnd.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+        [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -89,10 +90,12 @@ namespace SEGES.FrontEnd.Pages.Auth
             cities = responseHttp.Response;
         }
 
-        private async Task CreteUserAsync()
+        private async Task CreateUserAsync()
         {
             userDTO.UserName = userDTO.Email;
-            userDTO.UserType = UserType.User;
+            userDTO.UserType = IsAdmin ? userDTO.UserType : UserType.User;
+
+
             loading = true;
             var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
             loading = false;
