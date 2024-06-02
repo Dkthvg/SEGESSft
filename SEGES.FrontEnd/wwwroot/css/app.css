@@ -107,3 +107,15 @@ a, .btn-link {
     text-align: center;
 }
 
+.page-title {
+    color: #4340d2; /* Color del texto */
+    font-family: 'Arial', sans-serif; /* Familia de fuentes */
+    font-size: 36px; /* Tamaño del texto */
+    font-weight: bold; /* Grosor del texto */
+    text-align: center; /* Alineación del texto */
+    text-transform: uppercase; /* Transformación del texto a mayúsculas */
+    margin: 20px 0; /* Márgenes superior e inferior */
+    padding: 10px; /* Espaciado interno */
+    border-bottom: 2px solid #4340d2; /* Línea inferior */
+}
+

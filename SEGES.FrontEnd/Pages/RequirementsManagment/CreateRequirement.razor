@@ -1,0 +1,20 @@
+﻿@page "/CreateRequirement/{projectID:int}"
+
+<h3>CreateRequirement</h3>
+<RadzenButton Click=@(args => GoTo($"/projectDetail/{projectID}")) Icon="arrow_back" Text="Volver al Proyecto" ButtonStyle="ButtonStyle.Primary"/>
+
+<RadzenCard Class="rz-my-12 rz-mx-auto" Style="max-width: 100%">
+    <div>
+        <RadzenStack Orientation="Orientation.Vertical" Gap="10px" Reverse="false" JustifyContent="JustifyContent.Normal" AlignItems="AlignItems.Start" Wrap="FlexWrap.NoWrap" Style="height: 400px">
+            <RadzenCard Class="rz-my-12 rz-mx-auto" Style="max-width: 95%">
+                <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Start" Gap="1rem" Class="rz-p-4">
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Overline" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
+                </RadzenStack>
+            </RadzenCard>
+        </RadzenStack>
+    </div>
+</RadzenCard>
+

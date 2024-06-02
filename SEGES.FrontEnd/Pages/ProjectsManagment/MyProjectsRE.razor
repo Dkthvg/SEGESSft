@@ -1,0 +1,33 @@
+﻿@page "/MyProjectsRE"
+<h3 class="page-title">Mis proyectos</h3>
+statusCount
+
+
+<RadzenChart>
+    <RadzenDonutSeries Data="@dataChart" CategoryProperty="Estado" ValueProperty="Cantidad" TotalAngle="180" StartAngle="180" Title="Estados" >
+        <TitleTemplate>
+            <div class="rz-donut-content">
+                <div>Estados</div>
+            </div>
+        </TitleTemplate>
+    </RadzenDonutSeries>
+</RadzenChart>
+
+
+<RadzenDataGrid Data="@projectsAssigned" AllowVirtualization="true" Style="height:400px"
+                AllowFiltering="true" FilterPopupRenderMode="PopupRenderMode.OnDemand" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" LogicalFilterOperator="LogicalFilterOperator.Or"
+                AllowSorting="true">
+
+    <Columns>
+        <RadzenDataGridColumn Property="ProjectId" Title="Estado del Proyecto" />
+        <RadzenDataGridColumn Property="ProjectName" Title="nombre"></RadzenDataGridColumn>
+        <RadzenDataGridColumn Property="CreationDate" Title="Fecha de Creación" />
+        <RadzenDataGridColumn Property="ProjectStatus_ID" Title="Estado del Proyecto" />
+        <RadzenDataGridColumn Title="Detalles" Context="project">
+            <Template Context="project">
+                <RadzenButton Variant="Variant.Text" Click=@(() => GoTo(project.ProjectId)) Text="Ver Detalles" ButtonStyle="ButtonStyle.Primary" />
+            </Template>
+        </RadzenDataGridColumn>
+
+    </Columns>
+</RadzenDataGrid>
