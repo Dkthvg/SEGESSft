@@ -1,12 +1,14 @@
 ﻿@page "/Register"
 
+@using SEGES.Shared.Enums
+
 @if (loading)
 {
     <Loading />
 }
 else
 {
-    <EditForm Model="userDTO" OnValidSubmit="CreteUserAsync">
+    <EditForm Model="userDTO" OnValidSubmit="CreateUserAsync">
         <DataAnnotationsValidator />
 
         <div class="card">
@@ -123,6 +125,24 @@ else
                                 <ValidationMessage For="@(() => userDTO.PasswordConfirm)" />
                             </div>
                         </div>
+
+
+
+                        @if (IsAdmin)
+                        {
+                            <select class="form-select" @bind="userDTO.UserType">
+                                <option value="">-- Seleccione el tipo de Rol --</option>
+                                @foreach (UserType role in Enum.GetValues(typeof(UserType)))
+                                {
+                                    <option value="@role">@role.GetDescription()</option>
+                                }
+                            </select>
+
+                        }
+
+
+
+
                         <div class="mb-3">
                             <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
                         </div>

@@ -1,7 +1,16 @@
 ﻿@page "/UsersAdmin"
 
-<h3>UsersAdmin</h3>
 
+<div>
+    <h3>Administrador de Usuarios</h3>
+    <span>
+        <i class="bi bi-people" /> Usuarios
+        <a class="btn btn-sm btn-primary float-end" href="/register/?IsAdmin=true"><i class="bi bi-plus-circle" /> Adicionar Usuario</a>
+    </span>
+</div>
+<div style="margin-top: 20px;"></div>
+
+                
 <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
                 Data="@users" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" >
 
