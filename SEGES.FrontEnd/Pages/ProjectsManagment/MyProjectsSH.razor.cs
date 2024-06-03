@@ -1,20 +1,13 @@
 ﻿using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.Entities;
-using System.Net;
-using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace SEGES.FrontEnd.Pages.ProjectsManagment
 {
-    public partial class MyProjectsRE
+    public partial class MyProjectsSH
     {
         private string? CurrentUserEmail { get; set; }
         private string? CurrentUserName { get; set; }
@@ -25,12 +18,9 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
         [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
         [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
 
-
-
-        public  List<Project>? projects;
-        public List<Project>? projectsAssignedToRE;
+        public List<Project>? projects;
+        public List<Project>? projectsAssignedToSH;
         public List<ProjectCount> dataChart;
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -53,7 +43,7 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
             await Console.Out.WriteLineAsync(CurrentUserId);
 
             await LoadProjectsAsync();
-            dataChart = await GetCountByStatus(projectsAssignedToRE);
+            dataChart = await GetCountByStatus(projectsAssignedToSH);
 
         }
 
@@ -68,7 +58,7 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
             }
             projects = responseHttp.Response;
             if (projects != null)
-            projectsAssignedToRE = projects.Where(project => project.RequirementsEngineer_ID == CurrentUserId).ToList();
+                projectsAssignedToSH = projects.Where(project => project.StakeHolder_ID == CurrentUserId).ToList();
         }
 
         private async Task<List<ProjectCount>> GetCountByStatus(List<Project> myProjects)
@@ -82,17 +72,9 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
             }).ToList();
             return count;
         }
-
         private void GoTo(int project_ID)
         {
             NavigationManager.NavigateTo($"/projectDetail/{project_ID}");
         }
-
-    }
-    public class ProjectCount
-    {
-        //public string NombreEstado {get; set; }
-        public int? Estado { get; set; }
-        public int Cantidad { get; set; }
     }
 }

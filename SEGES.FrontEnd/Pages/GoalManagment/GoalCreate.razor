@@ -1,0 +1,41 @@
+﻿@page "/GoalCreate/{projectId:int}"
+
+
+@if (project == null)
+{
+    <Loading />
+}
+else
+{
+    <RadzenButton Click=@(args => GoTo($"/projectDetail/{projectId}")) Icon="arrow_back" Text="Volver al Proyecto" ButtonStyle="ButtonStyle.Primary" />
+
+    <RadzenCard Class="rz-my-12 rz-mx-auto" Style="max-width: 80%">
+        <RadzenTemplateForm Data="@Goal" Submit="@(async (Goal goalData) => await CreateNewGoal())">
+            <RadzenFieldset Text="Información del Objetivo">
+                <RadzenStack Gap="1rem">
+                    <RadzenRow AlignItems="AlignItems.Start">
+                        <RadzenColumn Size="12" SizeMD="2">
+                            <RadzenLabel Text="Nombre" />
+                        </RadzenColumn>
+                        <RadzenColumn Size="12" SizeMD="10">
+                            <RadzenTextBox Style="width: 100%;" Name="NombreObjetivo" @bind-Value="Goal.GoalName" Placeholder="Nombre del Objetivo" />
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow AlignItems="AlignItems.Start">
+                        <RadzenColumn Size="12" SizeMD="2">
+                            <RadzenLabel Text="Descripción" />
+                        </RadzenColumn>
+                        <RadzenColumn Size="12" SizeMD="10">
+                            <RadzenTextArea Placeholder="Ingresa la descripcón del Objetivo" class="w-100" Style="width: 100%;" @bind-Value="Goal.GoalDescription" />
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenStack>
+            </RadzenFieldset>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
+                <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Crear Objetivo" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="Cancelar" Text="Cancel" Click="@(args => GoTo($"/projectDetail/{projectId}"))" />
+            </RadzenStack>
+        </RadzenTemplateForm>
+
+    </RadzenCard>
+}

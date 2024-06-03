@@ -19,12 +19,34 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
         [Parameter] public int projectID { get; set; }
 
         private List<Requirement>? requirements { get; set; }
+        private List<Goal>? goals { get; set; }
         private Project? project;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadProjectDetail();
             await LoadRequirementsLis();
+            await LoadGoalList();
+        }
+
+        private async Task LoadGoalList()
+        {
+            try
+            {
+                var responseHttp = await Repository.GetAsync<List<Goal>>($"/api/Goals/full");
+                if (responseHttp.Error)
+                {
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                    return;
+                }
+                goals = responseHttp.Response.Where(g => g.Project_ID == projectID).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private async Task LoadRequirementsLis()
@@ -40,7 +62,7 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
                     return;
                 }
                 
-                requirements = responseHttp.Response;
+                requirements = responseHttp.Response.Where(p => p.Project_ID == projectID).ToList();
                 
                 if (requirements == null)
                 {

@@ -18,7 +18,5 @@ namespace SEGES.Shared.Enums
 
         [Description("Interesado")]
         StakeHolder
-
-
     }
 }

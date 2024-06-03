@@ -26,7 +26,6 @@ namespace SEGES.Shared.Entities
         //public List<Module> Modules { get; set;}
         //public List<Permission> Permissions { get; set; } = null!;
 
-        public List<Rel_RolPermission> RolPermissions { get; set; }
         public DateTime CreationDate { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

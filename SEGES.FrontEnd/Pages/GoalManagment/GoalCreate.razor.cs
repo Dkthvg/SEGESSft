@@ -1,49 +1,41 @@
 ﻿using Blazored.Modal;
 using CurrieTechnologies.Razor.SweetAlert2;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-
+using Microsoft.AspNetCore.Components;
 using SEGES.FrontEnd.Repositories;
 using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
-using System.Text;
-using System.Text.Json;
 
-namespace SEGES.FrontEnd.Pages.RequirementsManagment
+namespace SEGES.FrontEnd.Pages.GoalManagment
 {
-    public partial class CreateRequirement
+    public partial class GoalCreate
     {
-
+        private Goal Goal = new();
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
-        [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; } = null!;
-        [CascadingParameter] private BlazoredModalInstance BlazoredModal { get; set; } = default!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
-        [Inject] private AuthenticationStateProvider? GetAuthenticationStateAsync { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Parameter] public int projectID { get; set; }
+        [Parameter] public int projectId { get; set; }
+       
         public Project project = new Project();
-
-        private Requirement requirement = new();
-        
-
 
         protected override async Task OnInitializedAsync()
         {
-            var httpResponse = await Repository.GetAsync<Project>($"/api/project/{projectID}");
+            var httpResponse = await Repository.GetAsync<Project>($"/api/project/{projectId}");
             project = httpResponse.Response;
 
         }
-        private async Task CreateNewRequirement()
+        private async Task CreateNewGoal()
         {
-            if (requirement == null)
+            if (project == null)
             {
                 await SweetAlertService.FireAsync("Error", "Project data is null", SweetAlertIcon.Error);
                 return;
             }
-            requirement.Project_ID = projectID;
-            
-            
-            var responseHttp = await Repository.PostAsync("/api/Requirements", requirement);
+            Goal.Project_ID = projectId;
+            //Goal.CreationDate = DateTime.Now;
+            //var responseHttpProject = await Repository.GetAsync<Project>($"/api/Project/{projectId}");
+            //Goal.Project = responseHttpProject.Response;
+            var responseHttp = await Repository.PostAsync("/api/Goals", Goal);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -51,7 +43,7 @@ namespace SEGES.FrontEnd.Pages.RequirementsManagment
                 return;
             }
 
-            GoTo($"/projectDetail/{projectID}");
+            GoTo($"/projectDetail/{projectId}");
 
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
@@ -60,7 +52,7 @@ namespace SEGES.FrontEnd.Pages.RequirementsManagment
                 ShowConfirmButton = true,
                 Timer = 3000
             });
-            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Requerimiento creado con éxito");
+            await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Objetivo creado con éxito");
         }
         private void GoTo(string path)
         {

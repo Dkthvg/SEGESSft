@@ -44,5 +44,7 @@ namespace SEGES.Shared.Entities
 
         public ICollection<Issue>? Issues { get; set; }
         public ICollection<Requirement>? Requirements { get; set; }
+        public ICollection<Goal>? Goals { get; set; }
     }
 }
+

@@ -26,8 +26,8 @@ namespace SEGES.Shared.Entities
 
         public DateTime CreationDate { get; set; }
 
-        public int Goal_Id { get; set; }
-        public Goal Goal { get; set; }
+        public int? Goal_Id { get; set; }
+        public Goal? Goal { get; set; }
 
         public ICollection<SecundaryKPI> SecundaryKPIs { get; set; }
     }

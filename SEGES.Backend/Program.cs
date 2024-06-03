@@ -90,6 +90,9 @@ builder.Services.AddScoped<IProjectStatusesUnitOfWork, ProjectStatusesUnitOfWork
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
+builder.Services.AddScoped<IGoalsRepository, GoalsRepository>();
+builder.Services.AddScoped<IGoalsUnitOfWork, GoalsUnitOfWork>();
+
 builder.Services.AddScoped<IRequirementsRepository, RequirementsRepository>();
 builder.Services.AddScoped<IRequirementsUnitOfWork, RequirementsUnitOfWork>();
 

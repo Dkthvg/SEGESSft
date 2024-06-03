@@ -30,6 +30,6 @@ namespace SEGES.Shared.Entities
         public int Project_ID { get; set; }
         public Project Project { get; set; }
 
-        public ICollection<Rel_IssueGoal> IssueGoals { get; set; } = new List<Rel_IssueGoal>();
+
     }
 }

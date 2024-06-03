@@ -16,11 +16,15 @@ else{
             <RadzenTabsItem Text="Detalles">
                 
             </RadzenTabsItem>
+
             <RadzenTabsItem Text="Requerimientos">
-                    <RadzenButton Click=@(args => GoTo($"/CreateRequirement/{projectID}")) Icon="add_circle" Text="Nuevo Requerimiento" ButtonStyle="ButtonStyle.Primary" />
-                
-                    @foreach (Requirement req in requirements)
-                    {
+                <AuthorizeView Roles="ReqEngineer">
+                    <Authorized>
+                        <RadzenButton Click=@(args => GoTo($"/CreateRequirement/{projectID}")) Icon="add_circle" Text="Crear Requerimiento" ButtonStyle="ButtonStyle.Primary" />
+                    </Authorized>
+                </AuthorizeView>
+                @foreach (Requirement req in requirements)
+                {
                     <RadzenCard Class="rz-my-12 rz-mx-auto rz-shadow-2" Style="max-width: 100%">
                             <RadzenStack Orientation="Orientation.Vertical" Gap="20px" Reverse="false" JustifyContent="JustifyContent.Normal" AlignItems="AlignItems.Start" Wrap="FlexWrap.NoWrap" Style="height: 400px">
                                 <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento: @req.Name</RadzenText>
@@ -28,12 +32,15 @@ else{
                                 <RadzenText TextStyle="TextStyle.Body2" class="rz-display-flex rz-mt-2 rz-my-0">Fecha de Creación:  @req.CreationDate</RadzenText>
                             </RadzenStack>
                     </RadzenCard>
-                    }
-                    
-                
+                }
             </RadzenTabsItem>
-            <RadzenTabsItem Text="Traza Documental">
 
+            <RadzenTabsItem Text="Objetivos">
+                    <AuthorizeView Roles="StakeHolder">
+                        <Authorized>
+                            <RadzenButton Click=@(args => GoTo($"/GoalCreate/{projectID}")) Icon="add_circle" Text="Crear Objetivo" ButtonStyle="ButtonStyle.Primary" />
+                        </Authorized>
+                    </AuthorizeView>
             </RadzenTabsItem>
            
         </Tabs>

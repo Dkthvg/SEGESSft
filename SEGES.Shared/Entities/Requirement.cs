@@ -26,11 +26,11 @@ namespace SEGES.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         public DateTime CreationDate { get; set ; }
 
-        public int? Goal_ID { get; set; }
-        public Goal? Goal { get; set; }
-
         public int Project_ID { get; set; }
         public Project? Project { get; set; }
+
+        public int? Goal_ID { get; set; }
+        public Goal? Goal { get; set; }
 
         public ICollection<UseCase>? UseCases { get; set; }
 

@@ -21,7 +21,7 @@ namespace SEGES.Shared.Entities
         public string? RoleDescription { get; set; }
 
         public List<UserApp> Users { get; set; }
-        public List<Rel_RolPermission> RelPermissions { get; set; }
+
 
     }
 }

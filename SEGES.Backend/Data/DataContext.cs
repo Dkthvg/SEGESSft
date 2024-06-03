@@ -19,7 +19,25 @@ namespace SEGES.Backend
             modelBuilder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
             modelBuilder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
             modelBuilder.Entity<HUPriority>().HasKey(us => us.PriorityId);
-            modelBuilder.Entity<Goal>().HasKey(g => g.GoalId);
+            
+            modelBuilder.Entity<Goal>()
+                .HasKey(g => g.GoalId);
+
+            modelBuilder.Entity<Goal>()
+                .HasOne(r => r.Project)
+                .WithMany(g => g.Goals)
+                .HasForeignKey(r => r.GoalId);
+
+
+            modelBuilder.Entity<Goal>()
+                .Property(p => p.CreationDate)
+                .HasDefaultValueSql("GETDATE()");
+
+            modelBuilder.Entity<Goal>()
+                .Property(g => g.GoalId)
+                .ValueGeneratedOnAdd();
+
+
             modelBuilder.Entity<Module>().HasKey(c => c.ModuleId);
             modelBuilder.Entity<Permission>().HasKey(p => p.Id);
 
@@ -60,22 +78,29 @@ namespace SEGES.Backend
 
             modelBuilder.Entity<Requirement>()
                 .HasOne(r => r.Project)
-                .WithMany(p => p.Requirements)
-                .HasForeignKey(r => r.Project_ID);
-            
+                .WithMany(p => p.Requirements);
+
             modelBuilder.Entity<Requirement>()
-               .HasOne(g => g.Goal)
-               .WithMany()
-               .HasForeignKey(g => g.Goal_ID);
+                .HasOne(r => r.Goal)
+                .WithMany(p => p.Requirements);
 
             modelBuilder.Entity<Requirement>()
                 .Property(p => p.CreationDate)
                 .HasDefaultValueSql("GETDATE()");
 
-            modelBuilder.Entity<KPI>().HasKey(k => k.KPI_ID);
+            modelBuilder.Entity<KPI>().
+                HasKey(k => k.KPI_ID);
+
+            modelBuilder.Entity<KPI>()
+                .HasOne(r => r.Goal)
+                .WithMany(g => g.KPIs);
+                
+
+
+
             modelBuilder.Entity<SecundaryKPI>().HasKey(sk => sk.SecundaryKPI_Id);
-            modelBuilder.Entity<Rel_RolPermission>().HasKey(rp => new { rp.Role_ID, rp.Permission_ID });
-            modelBuilder.Entity<Rel_IssueGoal>().HasKey(rig => new { rig.Issue_ID, rig.Goal_ID });
+
+            
             modelBuilder.Entity<Issue>().HasOne(i => i.Project);
             modelBuilder.Entity<HUApprovalStatus>().HasKey(us => us.HUApprovalStatusId);
             modelBuilder.Entity<HUPublicationStatus>().HasKey(us => us.HUPublicationStatusId);
@@ -111,10 +136,9 @@ namespace SEGES.Backend
         public DbSet<HUStatus> HUStatuses { get; set; }
         public DbSet<HUPublicationStatus> HUPublicationStatuses { get; set; }
         public DbSet<HUPriority> HUPriorities { get; set; }
-        public DbSet<Rel_IssueGoal> Rel_IssueGoals { get; set; }
-        public DbSet<Rel_RolPermission> Rel_RolPermissions { get; set; }
         public DbSet<DocTraceabilityType> DocTraceabilityTypes { get; set; }
         public DbSet<HUApprovalStatus> HUApprovalStatuses { get; set; }
         public DbSet<ProjectStatus> ProjectStatuses { get; set; }
+        public DbSet<Goal> Goals { get; set; }
     }
 }

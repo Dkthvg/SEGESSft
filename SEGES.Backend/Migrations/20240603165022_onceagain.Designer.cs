@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SEGES.Backend;
 
@@ -11,9 +12,11 @@ using SEGES.Backend;
 namespace SEGES.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240603165022_onceagain")]
+    partial class onceagain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,7 +280,6 @@ namespace SEGES.Backend.Migrations
             modelBuilder.Entity("SEGES.Shared.Entities.Goal", b =>
                 {
                     b.Property<int>("GoalId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
@@ -426,10 +428,10 @@ namespace SEGES.Backend.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GoalId")
+                    b.Property<int>("GoalId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Goal_Id")
+                    b.Property<int>("Goal_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("KPI_Description")
@@ -583,6 +585,61 @@ namespace SEGES.Backend.Migrations
                     b.ToTable("ProjectStatuses");
                 });
 
+            modelBuilder.Entity("SEGES.Shared.Entities.Rel_IssueGoal", b =>
+                {
+                    b.Property<int>("Issue_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Goal_ID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GoalId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IssueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rel_IssueGoalId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Issue_ID", "Goal_ID");
+
+                    b.HasIndex("GoalId");
+
+                    b.HasIndex("IssueId");
+
+                    b.ToTable("Rel_IssueGoals");
+                });
+
+            modelBuilder.Entity("SEGES.Shared.Entities.Rel_RolPermission", b =>
+                {
+                    b.Property<int>("Role_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Permission_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolePermissionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Role_ID", "Permission_ID");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Rel_RolPermissions");
+                });
+
             modelBuilder.Entity("SEGES.Shared.Entities.Requirement", b =>
                 {
                     b.Property<int>("RequirementID")
@@ -607,9 +664,6 @@ namespace SEGES.Backend.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Project_ID")
                         .HasColumnType("int");
 
@@ -622,7 +676,9 @@ namespace SEGES.Backend.Migrations
 
                     b.HasIndex("GoalId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("Goal_ID");
+
+                    b.HasIndex("Project_ID");
 
                     b.ToTable("Requirements");
                 });
@@ -1069,7 +1125,8 @@ namespace SEGES.Backend.Migrations
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
                         .WithMany("KPIs")
                         .HasForeignKey("GoalId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Goal");
                 });
@@ -1116,17 +1173,61 @@ namespace SEGES.Backend.Migrations
                     b.Navigation("StakeHolder");
                 });
 
-            modelBuilder.Entity("SEGES.Shared.Entities.Requirement", b =>
+            modelBuilder.Entity("SEGES.Shared.Entities.Rel_IssueGoal", b =>
                 {
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
+                        .WithMany("IssueGoals")
+                        .HasForeignKey("GoalId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SEGES.Shared.Entities.Issue", "Issue")
+                        .WithMany("IssueGoals")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Goal");
+
+                    b.Navigation("Issue");
+                });
+
+            modelBuilder.Entity("SEGES.Shared.Entities.Rel_RolPermission", b =>
+                {
+                    b.HasOne("SEGES.Shared.Entities.Permission", "Permission")
+                        .WithMany("RolPermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SEGES.Shared.Entities.Role", "Role")
+                        .WithMany("RelPermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("SEGES.Shared.Entities.Requirement", b =>
+                {
+                    b.HasOne("SEGES.Shared.Entities.Goal", null)
                         .WithMany("Requirements")
                         .HasForeignKey("GoalId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
+                        .WithMany()
+                        .HasForeignKey("Goal_ID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("SEGES.Shared.Entities.Project", "Project")
                         .WithMany("Requirements")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("Project_ID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Goal");
 
@@ -1237,9 +1338,16 @@ namespace SEGES.Backend.Migrations
 
             modelBuilder.Entity("SEGES.Shared.Entities.Goal", b =>
                 {
+                    b.Navigation("IssueGoals");
+
                     b.Navigation("KPIs");
 
                     b.Navigation("Requirements");
+                });
+
+            modelBuilder.Entity("SEGES.Shared.Entities.Issue", b =>
+                {
+                    b.Navigation("IssueGoals");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.KPI", b =>
@@ -1250,6 +1358,11 @@ namespace SEGES.Backend.Migrations
             modelBuilder.Entity("SEGES.Shared.Entities.Module", b =>
                 {
                     b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("SEGES.Shared.Entities.Permission", b =>
+                {
+                    b.Navigation("RolPermissions");
                 });
 
             modelBuilder.Entity("SEGES.Shared.Entities.Project", b =>
@@ -1272,6 +1385,8 @@ namespace SEGES.Backend.Migrations
 
             modelBuilder.Entity("SEGES.Shared.Entities.Role", b =>
                 {
+                    b.Navigation("RelPermissions");
+
                     b.Navigation("Users");
                 });
 

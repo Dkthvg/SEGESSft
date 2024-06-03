@@ -22,11 +22,18 @@ namespace SEGES.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         public string GoalDescription { get; set; }
 
+        public int Project_ID { get; set; }
+        public Project? Project { get; set; }
 
+
+
+        [Display(Name = "Fecha de Creación")]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         public DateTime CreationDate { get; set; }
 
-        public ICollection<Rel_IssueGoal> IssueGoals { get; set; }
-        public ICollection<KPI> KPIs { get; set; }
-        public ICollection<Requirement> Requirements { get; set; }
+        public ICollection<KPI>? KPIs { get; set; }
+        public ICollection<Requirement>? Requirements { get; set; }
+
+
     }
 }
