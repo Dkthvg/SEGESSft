@@ -18,11 +18,40 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
         [Inject] private IRepository Repository { get; set; } = null!;
         [Parameter] public int projectID { get; set; }
 
+        private List<Requirement>? requirements { get; set; }
         private Project? project;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadProjectDetail();
+            await LoadRequirementsLis();
+        }
+
+        private async Task LoadRequirementsLis()
+        {
+            try
+            {
+                var responseHttp = await Repository.GetAsync<List<Requirement>>($"/api/Requirements/full");
+                
+                if (responseHttp.Error)
+                {
+                    var message = await responseHttp.GetErrorMessageAsync();
+                    await SweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+                    return;
+                }
+                
+                requirements = responseHttp.Response;
+                
+                if (requirements == null)
+                {
+                    await SweetAlertService.FireAsync("Error", "Requerimientos no encontrados.", SweetAlertIcon.Error);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private async Task LoadProjectDetail()

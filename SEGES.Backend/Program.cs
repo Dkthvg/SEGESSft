@@ -90,6 +90,9 @@ builder.Services.AddScoped<IProjectStatusesUnitOfWork, ProjectStatusesUnitOfWork
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
 
+builder.Services.AddScoped<IRequirementsRepository, RequirementsRepository>();
+builder.Services.AddScoped<IRequirementsUnitOfWork, RequirementsUnitOfWork>();
+
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
 

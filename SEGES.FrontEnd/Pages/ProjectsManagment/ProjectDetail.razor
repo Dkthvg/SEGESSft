@@ -1,6 +1,12 @@
 ﻿@page "/projectDetail/{projectID:int}"
 <h3 class="page-title">@project?.ProjectName</h3>
 
+@if (project is null)
+{
+    <Loading />
+}
+else{
+
 <RadzenButton Click=@(args => GoTo("/MyProjectsRE")) Icon="arrow_back" Text="Ir a Mis Proyectos" ButtonStyle="ButtonStyle.Primary" />
 
 
@@ -12,16 +18,19 @@
             </RadzenTabsItem>
             <RadzenTabsItem Text="Requerimientos">
                 <RadzenButton Click=@(args => GoTo($"/CreateRequirement/{projectID}")) Icon="add_circle" Text="Nuevo Requerimiento" ButtonStyle="ButtonStyle.Primary" />
-                <RadzenCard Class="rz-my-12 rz-mx-auto rz-shadow-2" Style="max-width: 100%">
-                    <div>
-                        <RadzenStack Orientation="Orientation.Vertical" Gap="50px" Reverse="false" JustifyContent="JustifyContent.Normal" AlignItems="AlignItems.Start" Wrap="FlexWrap.NoWrap" Style="height: 400px">
-                            <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Nombre delRequerimiento: Nombre</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body1" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body2" class="rz-display-flex rz-mt-2 rz-my-0">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</RadzenText>
-                            <RadzenText TextStyle="TextStyle.Body2" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento</RadzenText>
-                        </RadzenStack>
-                    </div>
-                </RadzenCard>
+                
+                    @foreach (Requirement req in requirements)
+                    {
+                    <RadzenCard Class="rz-my-12 rz-mx-auto rz-shadow-2" Style="max-width: 100%">
+                            <RadzenStack Orientation="Orientation.Vertical" Gap="20px" Reverse="false" JustifyContent="JustifyContent.Normal" AlignItems="AlignItems.Start" Wrap="FlexWrap.NoWrap" Style="height: 400px">
+                                <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Requerimiento: @req.Name</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2" class="rz-display-flex rz-mt-2 rz-my-0">@req.RequirementDescription</RadzenText>
+                                <RadzenText TextStyle="TextStyle.Body2" class="rz-display-flex rz-mt-2 rz-my-0">Fecha de Creación:  @req.CreationDate</RadzenText>
+                            </RadzenStack>
+                    </RadzenCard>
+                    }
+                    
+                
             </RadzenTabsItem>
             <RadzenTabsItem Text="Traza Documental">
 
@@ -30,3 +39,4 @@
         </Tabs>
     </RadzenTabs>
 </RadzenCard>
+}

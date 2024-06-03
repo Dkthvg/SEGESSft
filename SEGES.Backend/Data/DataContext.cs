@@ -56,6 +56,16 @@ namespace SEGES.Backend
             modelBuilder.Entity<Project>()
                 .HasIndex(p => p.ProjectName).IsUnique();
 
+            modelBuilder.Entity<Requirement>().HasKey(r => r.RequirementID);
+
+            modelBuilder.Entity<Requirement>()
+                .HasOne(r => r.Project)
+                .WithMany(p => p.Requirements)
+                .HasForeignKey(r => r.Project_ID);
+            modelBuilder.Entity<Requirement>()
+                .Property(p => p.CreationDate)
+                .HasDefaultValueSql("GETDATE()");
+
             modelBuilder.Entity<KPI>().HasKey(k => k.KPI_ID);
             modelBuilder.Entity<SecundaryKPI>().HasKey(sk => sk.SecundaryKPI_Id);
             modelBuilder.Entity<Rel_RolPermission>().HasKey(rp => new { rp.Role_ID, rp.Permission_ID });

@@ -43,5 +43,6 @@ namespace SEGES.Shared.Entities
         public ProjectStatus? ProjectStatus { get; set; }
 
         public ICollection<Issue>? Issues { get; set; }
+        public ICollection<Requirement>? Requirements { get; set; }
     }
 }
