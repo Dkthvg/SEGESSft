@@ -17,7 +17,7 @@ else{
                 
             </RadzenTabsItem>
             <RadzenTabsItem Text="Requerimientos">
-                <RadzenButton Click=@(args => GoTo($"/CreateRequirement/{projectID}")) Icon="add_circle" Text="Nuevo Requerimiento" ButtonStyle="ButtonStyle.Primary" />
+                    <RadzenButton Click=@(args => GoTo($"/CreateRequirement/{projectID}")) Icon="add_circle" Text="Nuevo Requerimiento" ButtonStyle="ButtonStyle.Primary" />
                 
                     @foreach (Requirement req in requirements)
                     {

@@ -62,6 +62,12 @@ namespace SEGES.Backend
                 .HasOne(r => r.Project)
                 .WithMany(p => p.Requirements)
                 .HasForeignKey(r => r.Project_ID);
+            
+            modelBuilder.Entity<Requirement>()
+               .HasOne(g => g.Goal)
+               .WithMany()
+               .HasForeignKey(g => g.Goal_ID);
+
             modelBuilder.Entity<Requirement>()
                 .Property(p => p.CreationDate)
                 .HasDefaultValueSql("GETDATE()");

@@ -45,9 +45,7 @@ namespace SEGES.FrontEnd.Pages.ProjectsManagment
             }
             projects = responseHttp.Response;
             if (projects != null)
-            projectsAssigned = projects.Where(project => project.RequirementsEngineer_ID == "d25a090a-619f-4701-bc62-d020e198cb8b").ToList();
-
-
+            projectsAssigned = projects.Where(project => project.RequirementsEngineer_ID == "b34efb32-d0f0-4590-8583-eaf820d61953").ToList();
         }
 
         private async Task<List<ProjectCount>> GetCountByStatus(List<Project> myProjects)

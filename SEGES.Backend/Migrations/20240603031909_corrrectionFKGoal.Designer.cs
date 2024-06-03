@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SEGES.Backend;
 
@@ -11,9 +12,11 @@ using SEGES.Backend;
 namespace SEGES.Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240603031909_corrrectionFKGoal")]
+    partial class corrrectionFKGoal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -651,7 +654,7 @@ namespace SEGES.Backend.Migrations
                     b.Property<int?>("GoalId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Goal_ID")
+                    b.Property<int>("Goal_ID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -1205,7 +1208,8 @@ namespace SEGES.Backend.Migrations
                     b.HasOne("SEGES.Shared.Entities.Goal", "Goal")
                         .WithMany()
                         .HasForeignKey("Goal_ID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("SEGES.Shared.Entities.Project", "Project")
                         .WithMany("Requirements")
