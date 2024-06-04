@@ -1,4 +1,4 @@
-﻿@page "/GoalCreate/{projectId:int}"
+﻿@page "/GoalCreate/{projectID:int}"
 
 
 @if (project == null)
@@ -7,7 +7,7 @@
 }
 else
 {
-    <RadzenButton Click=@(args => GoTo($"/projectDetail/{projectId}")) Icon="arrow_back" Text="Volver al Proyecto" ButtonStyle="ButtonStyle.Primary" />
+    <RadzenButton Click=@(args => GoTo($"/projectDetail/{projectID}")) Icon="arrow_back" Text="Volver al Proyecto" ButtonStyle="ButtonStyle.Primary" />
 
     <RadzenCard Class="rz-my-12 rz-mx-auto" Style="max-width: 80%">
         <RadzenTemplateForm Data="@Goal" Submit="@(async (Goal goalData) => await CreateNewGoal())">
@@ -33,7 +33,7 @@ else
             </RadzenFieldset>
             <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="1rem" Class="rz-mt-8 rz-mb-4">
                 <RadzenButton ButtonType="ButtonType.Submit" Size="ButtonSize.Large" Icon="save" Text="Crear Objetivo" />
-                <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="Cancelar" Text="Cancel" Click="@(args => GoTo($"/projectDetail/{projectId}"))" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Large" Icon="Cancelar" Text="Cancel" Click="@(args => GoTo($"/projectDetail/{projectID}"))" />
             </RadzenStack>
         </RadzenTemplateForm>
 

@@ -13,51 +13,51 @@ namespace SEGES.Backend.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_ProjectManagerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_RequirementsEngineerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_StakeHolderId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_ProjectStatuses_ProjectStatusId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_ProjectManagerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_ProjectStatusId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_RequirementsEngineerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_StakeHolderId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropColumn(
                 name: "ProjectManagerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropColumn(
                 name: "ProjectStatusId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropColumn(
                 name: "RequirementsEngineerId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropColumn(
                 name: "StakeHolderId",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -71,7 +71,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "StakeHolder_ID",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -79,7 +79,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "RequirementsEngineer_ID",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -87,7 +87,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "ProjectManager_ID",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -95,7 +95,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationDate",
-                table: "Projects",
+                table: "Project",
                 type: "datetime2",
                 nullable: false,
                 defaultValueSql: "GETDATE()",
@@ -104,27 +104,27 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectManager_ID",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectManager_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectStatus_ID",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectStatus_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_RequirementsEngineer_ID",
-                table: "Projects",
+                table: "Project",
                 column: "RequirementsEngineer_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_StakeHolder_ID",
-                table: "Projects",
+                table: "Project",
                 column: "StakeHolder_ID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_ProjectManager_ID",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectManager_ID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -132,7 +132,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_RequirementsEngineer_ID",
-                table: "Projects",
+                table: "Project",
                 column: "RequirementsEngineer_ID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -140,7 +140,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_StakeHolder_ID",
-                table: "Projects",
+                table: "Project",
                 column: "StakeHolder_ID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -148,7 +148,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_ProjectStatuses_ProjectStatus_ID",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectStatus_ID",
                 principalTable: "ProjectStatuses",
                 principalColumn: "ProjectStatusId",
@@ -160,35 +160,35 @@ namespace SEGES.Backend.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_ProjectManager_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_RequirementsEngineer_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_AspNetUsers_StakeHolder_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Projects_ProjectStatuses_ProjectStatus_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_ProjectManager_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_ProjectStatus_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_RequirementsEngineer_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.DropIndex(
                 name: "IX_Projects_StakeHolder_ID",
-                table: "Projects");
+                table: "Project");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
@@ -202,7 +202,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "StakeHolder_ID",
-                table: "Projects",
+                table: "Project",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -210,7 +210,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "RequirementsEngineer_ID",
-                table: "Projects",
+                table: "Project",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -218,7 +218,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "ProjectManager_ID",
-                table: "Projects",
+                table: "Project",
                 type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -226,7 +226,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AlterColumn<DateTime>(
                 name: "CreationDate",
-                table: "Projects",
+                table: "Project",
                 type: "datetime2",
                 nullable: false,
                 oldClrType: typeof(DateTime),
@@ -235,52 +235,52 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "ProjectManagerId",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "ProjectStatusId",
-                table: "Projects",
+                table: "Project",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<string>(
                 name: "RequirementsEngineerId",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "StakeHolderId",
-                table: "Projects",
+                table: "Project",
                 type: "nvarchar(450)",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectManagerId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectStatusId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_RequirementsEngineerId",
-                table: "Projects",
+                table: "Project",
                 column: "RequirementsEngineerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_StakeHolderId",
-                table: "Projects",
+                table: "Project",
                 column: "StakeHolderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_ProjectManagerId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectManagerId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -288,7 +288,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_RequirementsEngineerId",
-                table: "Projects",
+                table: "Project",
                 column: "RequirementsEngineerId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -296,7 +296,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_AspNetUsers_StakeHolderId",
-                table: "Projects",
+                table: "Project",
                 column: "StakeHolderId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
@@ -304,7 +304,7 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Projects_ProjectStatuses_ProjectStatusId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectStatusId",
                 principalTable: "ProjectStatuses",
                 principalColumn: "ProjectStatusId",

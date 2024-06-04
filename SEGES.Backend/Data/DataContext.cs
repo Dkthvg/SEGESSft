@@ -23,10 +23,11 @@ namespace SEGES.Backend
             modelBuilder.Entity<Goal>()
                 .HasKey(g => g.GoalId);
 
+
             modelBuilder.Entity<Goal>()
-                .HasOne(r => r.Project)
-                .WithMany(g => g.Goals)
-                .HasForeignKey(r => r.GoalId);
+                .HasOne(g => g.Project)
+                .WithMany(p => p.Goals)
+                .HasForeignKey(g => g.Project_ID);
 
 
             modelBuilder.Entity<Goal>()

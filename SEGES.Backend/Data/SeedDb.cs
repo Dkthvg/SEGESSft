@@ -36,7 +36,7 @@ namespace SEGES.Backend
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            //await CheckCountriesFullAsync();
+            await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckStatesAsync();
             await CheckCitiesAsync();
@@ -91,14 +91,14 @@ namespace SEGES.Backend
         }
 
 
-        //private async Task CheckCountriesFullAsync()
-        //{
-        //    if (!_context.Countries.Any())
-        //    {
-        //        var countriesStatesCitiesSQLScript = File.ReadAllText("Data\\CountriesStatesCities.sql");
-        //        await _context.Database.ExecuteSqlRawAsync(countriesStatesCitiesSQLScript);
-        //    }
-        //}
+        private async Task CheckCountriesFullAsync()
+        {
+            if (!_context.Countries.Any())
+            {
+                var countriesStatesCitiesSQLScript = File.ReadAllText("Data\\CountriesStatesCities.sql");
+                await _context.Database.ExecuteSqlRawAsync(countriesStatesCitiesSQLScript);
+            }
+        }
         /*
         private async Task CheckRoles()
         {

@@ -14,13 +14,13 @@ namespace SEGES.FrontEnd.Pages.GoalManagment
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
-        [Parameter] public int projectId { get; set; }
+        [Parameter] public int projectID { get; set; }
        
         public Project project = new Project();
 
         protected override async Task OnInitializedAsync()
         {
-            var httpResponse = await Repository.GetAsync<Project>($"/api/project/{projectId}");
+            var httpResponse = await Repository.GetAsync<Project>($"/api/project/{projectID}");
             project = httpResponse.Response;
 
         }
@@ -31,7 +31,7 @@ namespace SEGES.FrontEnd.Pages.GoalManagment
                 await SweetAlertService.FireAsync("Error", "Project data is null", SweetAlertIcon.Error);
                 return;
             }
-            Goal.Project_ID = projectId;
+            Goal.Project_ID = projectID;
             //Goal.CreationDate = DateTime.Now;
             //var responseHttpProject = await Repository.GetAsync<Project>($"/api/Project/{projectId}");
             //Goal.Project = responseHttpProject.Response;
@@ -43,7 +43,7 @@ namespace SEGES.FrontEnd.Pages.GoalManagment
                 return;
             }
 
-            GoTo($"/projectDetail/{projectId}");
+            GoTo($"/projectDetail/{projectID}");
 
             var toast = SweetAlertService.Mixin(new SweetAlertOptions
             {
@@ -54,6 +54,8 @@ namespace SEGES.FrontEnd.Pages.GoalManagment
             });
             await toast.FireAsync(icon: SweetAlertIcon.Success, message: "Objetivo creado con éxito");
         }
+
+
         private void GoTo(string path)
         {
             NavigationManager.NavigateTo(path);

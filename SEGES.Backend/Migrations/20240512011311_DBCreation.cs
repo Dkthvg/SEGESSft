@@ -613,7 +613,7 @@ namespace SEGES.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "Project",
                 columns: table => new
                 {
                     ProjectId = table.Column<int>(type: "int", nullable: false)
@@ -634,9 +634,9 @@ namespace SEGES.Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.PrimaryKey("PK_Project", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_Projects_AspNetUsers_ProjectManagerId",
+                        name: "FK_Project_AspNetUsers_ProjectManagerId",
                         column: x => x.ProjectManagerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -681,7 +681,7 @@ namespace SEGES.Backend.Migrations
                     table.ForeignKey(
                         name: "FK_Issues_Projects_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        principalTable: "Project",
                         principalColumn: "ProjectId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -807,22 +807,22 @@ namespace SEGES.Backend.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectManagerId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_ProjectStatusId",
-                table: "Projects",
+                table: "Project",
                 column: "ProjectStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_RequirementsEngineerId",
-                table: "Projects",
+                table: "Project",
                 column: "RequirementsEngineerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_StakeHolderId",
-                table: "Projects",
+                table: "Project",
                 column: "StakeHolderId");
 
             migrationBuilder.CreateIndex(
@@ -962,7 +962,7 @@ namespace SEGES.Backend.Migrations
                 name: "Requirements");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Project");
 
             migrationBuilder.DropTable(
                 name: "Modules");
