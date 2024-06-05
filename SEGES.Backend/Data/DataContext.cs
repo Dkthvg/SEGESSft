@@ -9,6 +9,7 @@ namespace SEGES.Backend
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            Database.SetCommandTimeout(600);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
