@@ -8,7 +8,6 @@ using SEGES.Shared.DTOs;
 using SEGES.Shared.Entities;
 using System.Net;
 
-
 namespace SEGES.FrontEnd.Pages.Auth
 {
     [Authorize]
@@ -24,7 +23,7 @@ namespace SEGES.FrontEnd.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
-        [CascadingParameter] IModalService Modal { get; set; } = default!;
+        [CascadingParameter] private IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -39,10 +38,12 @@ namespace SEGES.FrontEnd.Pages.Auth
                 user.Photo = null;
             }
         }
+
         private void ShowModal()
         {
             Modal.Show<ChangePassword>();
         }
+
         private async Task LoadUserAsyc()
         {
             var responseHttp = await Repository.GetAsync<UserApp>($"/api/accounts");
