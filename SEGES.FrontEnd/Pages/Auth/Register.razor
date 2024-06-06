@@ -126,22 +126,20 @@ else
                             </div>
                         </div>
 
-
-
+                      
                         @if (IsAdmin)
                         {
+                            <label>Rol:</label>
                             <select class="form-select" @bind="userDTO.UserType">
-                                <option value="">-- Seleccione el tipo de Rol --</option>
+                                <option value="0">-- Seleccione el tipo de Rol --</option>
                                 @foreach (UserType role in Enum.GetValues(typeof(UserType)))
                                 {
+                                  
                                     <option value="@role">@role.GetDescription()</option>
                                 }
                             </select>
 
                         }
-
-
-
 
                         <div class="mb-3">
                             <InputImg Label="Foto" ImageSelected="ImageSelected" ImageURL="@imageUrl" />
