@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SEGES.Shared.Entities;
+using System.Linq;
 
 namespace SEGES.Backend
 {
