@@ -3,6 +3,9 @@ using SEGES.Shared.Entities;
 using Newtonsoft.Json;
 using SEGES.Shared.Enums;
 using SEGES.Backend.UnitsOfWork.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.InteropServices;
+using SEGES.Backend.Helpers;
 
 
 namespace SEGES.Backend
@@ -10,12 +13,14 @@ namespace SEGES.Backend
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IFileStorage _fileStorage;
 
         private readonly IUsersUnitOfWork _usersUnitOfWork;
         public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork)
         {
             _context = context;
             _usersUnitOfWork = usersUnitOfWork;
+
         }
 
         public string statusNameList = @"[
@@ -41,7 +46,7 @@ namespace SEGES.Backend
             await CheckStatesAsync();
             await CheckCitiesAsync();
             await CheckRolesAsync();
-            await CheckUserAsync("1010", "admin", "prueba", "admin@yopmail.com", "555555", "direcion prueba", UserType.Admin);
+            await CheckUserAsync("1010", "admin", "prueba", "correopruebaisaura@gmail.com", "555555", "direcion prueba", UserType.Admin);
             await CheckDocTraceabilityType();
             await CheckHUApprobalStatus();
             await CheckHUPriority();
@@ -89,6 +94,7 @@ namespace SEGES.Backend
 
             return user;
         }
+
 
 
         private async Task CheckCountriesFullAsync()

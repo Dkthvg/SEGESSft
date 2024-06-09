@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "ignored": "true",
+      "type": "identityapp"
+    },
+    "apis1": {
+      "ignored": "true",
+      "type": "apis.azure"
+    },
+    "storage1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/SEGESBackend/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsSIEGESConnection_F32D4C2D2B, /subscriptions/d823e4d2-34d5-402a-9826-7f994da5bdc8/resourcegroups/SEGESBackend20240605130753ResourceGroup/providers/Microsoft.Web/sites/SEGESBackend/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsSIEGESConnection_565D2C69CB",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/segesbackendstorage",
+      "type": "storage.azure",
+      "connectionId": "ConnectionStrings:SIEGESConnection",
+      "dynamicId": null
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/SEGESBackend/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDockerConnection_5C49A2E607",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/segesserver/databases/SEGESBackend_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DockerConnection"
+    }
+  }
+}
