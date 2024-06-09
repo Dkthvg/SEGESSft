@@ -1,4 +1,8 @@
 ﻿@page "/"
+@using SEGES.FrontEnd.Helpers
+
+@inject AnonymousSessionService SessionService
+@inject DialogService DialogService
 
 <PageTitle>Index</PageTitle>
 
@@ -19,6 +23,10 @@
 <div>
     <p>Nuestro software está diseñado para mejorar la comunicación entre los stakeholders y los ingenieros de requisitos en tus proyectos. Con herramientas avanzadas de seguimiento y colaboración, te ayudamos a gestionar proyectos de manera eficiente y efectiva.</p>
     <p>¡Comienza a optimizar tus proyectos ahora mismo!</p>
+</div>
+
+<div>
+    <RadzenButton Click=@(() => GoTo($"/learnMore/{sessionId}")) Text="Aprender mas" ButtonStyle="ButtonStyle.Primary" />
 </div>
 
 <div style="overflow-y:hidden">
@@ -110,5 +118,4 @@
             </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
-
 </div>
