@@ -17,6 +17,10 @@
       "type": "storage",
       "connectionId": "ConnectionStrings:SIEGESConnection",
       "dynamicId": null
+    },
+    "identityapp1": {
+      "ignored": "true",
+      "type": "identityapp"
     }
   }
 }
