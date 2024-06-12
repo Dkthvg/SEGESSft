@@ -1,5 +1,10 @@
 {
   "dependencies": {
+    "storage1": {
+      "type": "storage",
+      "connectionId": "ConnectionStrings:SIEGESConnection",
+      "dynamicId": null
+    },
     "mssql1": {
       "type": "mssql",
       "connectionId": "ConnectionStrings:DockerConnection",

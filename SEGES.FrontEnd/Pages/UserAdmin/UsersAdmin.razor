@@ -37,7 +37,7 @@
         <RadzenDataGridColumn Property="FullName" Title="Acciones" Frozen="true" Width="160px" Filterable="false" TextAlign="TextAlign.Center">
             <Template Context="data">
                 <RadzenButton ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="edit" class="m-1" Click=@(()=> Goto("EditUser")) Text="Editar" />
-                <RadzenIcon Icon="delete" />
+                <RadzenIcon ButtonStyle="ButtonStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter" Icon="delete" class="m-1" />
             </Template>
         </RadzenDataGridColumn>
 

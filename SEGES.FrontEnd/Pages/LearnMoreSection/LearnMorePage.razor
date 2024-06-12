@@ -1,0 +1,108 @@
+﻿@page "/learnMore/{sessionId:guid}"
+
+
+@if (Comments is null)
+{
+    <Loading />
+}
+else
+{
+    <RadzenCard Style="margin: 20px;">
+        <header>
+            <h1>Levantamiento de Requerimientos: Clave para el Éxito en Proyectos de Software</h1>
+        </header>
+        <div>
+            <h3>¿Qué es el Levantamiento de Requerimientos? </h3>
+            <p>
+
+
+            </p>
+            <p>El levantamiento de requerimientos es el proceso de recopilar, documentar y analizar las necesidades y expectativas de los stakeholders (interesados) en un proyecto de software. Este proceso es crucial para garantizar que el producto final cumpla con las especificaciones y satisfaga las necesidades de todos los involucrados. Involucra la identificación de las funcionalidades, características y restricciones del sistema a desarrollar.</p>
+        </div>
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Importancia del Levantamiento de Requerimientos" Icon="home">
+                <RadzenRow class="rz-text-align-center" Gap="0.5rem">
+                    <RadzenColumn Size="3">
+
+                        <img src="https://media.licdn.com/dms/image/D4E12AQFXvXXNwqfPcQ/article-cover_image-shrink_720_1280/0/1689632117163?e=2147483647&v=beta&t=PUDMpaPLvW_SLxY3wvNaLdfV9B-e_3K7peu1do2ANAw" alt="Description of Image 1" width=100% height=100% style="padding:1rem" />
+
+                    </RadzenColumn>
+                    <RadzenColumn Style="padding:1rem">
+                        <RadzenText TextAlign="TextAlign.Justify">
+                            1. <b>Claridad y Precisión:</b> Proporciona una comprensión clara de lo que se debe construir, minimizando malentendidos y ambigüedades.<br>
+                            2. <b>Gestión de Expectativas:</b> Ayuda a alinear las expectativas de los stakeholders con las capacidades reales del equipo de desarrollo.<br>
+                            3. <b>Prevención de Cambios Costosos:</b> Identificar y acordar los requerimientos desde el inicio reduce la necesidad de cambios significativos durante las etapas posteriores del proyecto.<br>
+                            4. <b>Facilitación de la Planificación:</b> Proporciona la base para estimar costos, recursos y tiempo necesarios para completar el proyecto.
+                        </RadzenText>
+
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Fases del Levantamiento de Requerimientos" Icon="star">
+                <RadzenRow class="rz-text-align-center" Gap="0.5rem">
+                    <RadzenColumn Style="padding:1rem">
+                        <RadzenText TextAlign="TextAlign.Justify">
+                            <b>1. Identificación de Stakeholders</b><br>
+                            El primer paso es identificar a todas las personas y entidades que tendrán una influencia o interés en el proyecto. Esto incluye clientes, usuarios finales, patrocinadores, y cualquier otro grupo que pueda ser afectado por el sistema.
+                            <br>
+                            <br>
+                            <b>2. Recopilación de Información</b>
+                            Existen varias técnicas para recopilar información sobre los requerimientos, entre ellas:
+                            <br>
+                            <b>  * Entrevistas:</b> Conversaciones directas con stakeholders para obtener información detallada.<br>
+                            <b>  * Encuestas y Cuestionarios:</b> Herramientas para recolectar datos de un amplio grupo de interesados.<br>
+                            <b>  * Talleres y Sesiones de Grupo:</b> Reuniones colaborativas donde se discuten y definen los requerimientos.<br>
+                            <b>  * Observación:</b> Análisis de cómo se realizan las tareas actualmente para entender mejor las necesidades del sistema.<br>
+                            <b>  * Revisión de Documentación:</b> Análisis de documentos existentes como manuales, reportes y sistemas actuales.
+                            <br>
+                            <br>
+                            <b>3. Análisis y Priorización</b><br>
+                            Una vez recopilada la información, se deben analizar los datos para identificar requerimientos clave, posibles conflictos y prioridades. Los requerimientos deben ser clasificados en términos de su importancia y urgencia.
+                            <br>
+                            <br>
+                            <b>4. Documentación</b>
+                            Los requerimientos deben ser documentados de manera clara y precisa. Los documentos comunes incluyen:
+                            <br>
+                            <b>* Especificaciones de Requerimientos del Software (SRS):</b> Un documento formal que detalla todos los requerimientos del sistema.<br>
+                            <b>* Historias de Usuario:</b> Descripciones breves de funcionalidades desde la perspectiva del usuario.<br>
+                            <b>* Diagramas de Casos de Uso:</b> Representaciones gráficas que muestran las interacciones entre los usuarios y el sistema.
+                            <br>
+                            <br>
+                            <b>5. Validación y Verificación</b>
+                            Es crucial validar y verificar los requerimientos con los stakeholders para asegurarse de que se han entendido correctamente y que cumplen con sus necesidades. Esto puede implicar revisiones formales, prototipos y simulaciones.
+                        </RadzenText>
+                    </RadzenColumn>
+                    <RadzenColumn Size="3">
+                        <img src="https://media.licdn.com/dms/image/D4E12AQFXvXXNwqfPcQ/article-cover_image-shrink_720_1280/0/1689632117163?e=2147483647&v=beta&t=PUDMpaPLvW_SLxY3wvNaLdfV9B-e_3K7peu1do2ANAw" alt="Description of Image 1" width=100% height=100% style="padding:1rem" />
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </RadzenCard>
+
+    <RadzenCard Style="margin: 20px;">
+
+        <RadzenStack Gap="5rem">
+            <RadzenTemplateForm Data="@Comment" Submit="@((LearnMoreComments comments) => { SaveComment(); })">
+                <RadzenFieldset Text="Comparte tus comentarios">
+                    <RadzenTextArea @bind-Value=Comment.Comment Style="width:100%" />
+                    <RadzenButton ButtonType="ButtonType.Submit" Text="Comentar" ButtonStyle="ButtonStyle.Primary" />
+                </RadzenFieldset>
+            </RadzenTemplateForm>
+
+            <RadzenFieldset Text="Comentarios de otros usuarios">
+                @foreach (LearnMoreComments comment in Comments)
+                {
+                    <RadzenCard Style="margin: 20px;">
+                        <RadzenStack Orientation="Orientation.Vertical" Gap="20px" Reverse="false" JustifyContent="JustifyContent.Normal" AlignItems="AlignItems.Start" Wrap="FlexWrap.NoWrap" Style="height: 250px">
+                            <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Usuario: Anónimo @comment.CreatedBy</RadzenText>
+                            <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Comentario: @comment.Comment</RadzenText>
+                            <RadzenText TextStyle="TextStyle.DisplayH6" class="rz-display-flex rz-mt-2 rz-my-0">Creado: @comment.CreationDate</RadzenText>
+                        </RadzenStack>
+                    </RadzenCard>
+                }
+            </RadzenFieldset>
+        </RadzenStack>
+
+    </RadzenCard>
+}

@@ -9,6 +9,7 @@ namespace SEGES.Backend
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            Database.SetCommandTimeout(600);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,16 +20,14 @@ namespace SEGES.Backend
             modelBuilder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
             modelBuilder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
             modelBuilder.Entity<HUPriority>().HasKey(us => us.PriorityId);
-            
+
             modelBuilder.Entity<Goal>()
                 .HasKey(g => g.GoalId);
-
 
             modelBuilder.Entity<Goal>()
                 .HasOne(g => g.Project)
                 .WithMany(p => p.Goals)
                 .HasForeignKey(g => g.Project_ID);
-
 
             modelBuilder.Entity<Goal>()
                 .Property(p => p.CreationDate)
@@ -37,7 +36,6 @@ namespace SEGES.Backend
             modelBuilder.Entity<Goal>()
                 .Property(g => g.GoalId)
                 .ValueGeneratedOnAdd();
-
 
             modelBuilder.Entity<Module>().HasKey(c => c.ModuleId);
             modelBuilder.Entity<Permission>().HasKey(p => p.Id);
@@ -95,19 +93,25 @@ namespace SEGES.Backend
             modelBuilder.Entity<KPI>()
                 .HasOne(r => r.Goal)
                 .WithMany(g => g.KPIs);
-                
-
-
 
             modelBuilder.Entity<SecundaryKPI>().HasKey(sk => sk.SecundaryKPI_Id);
 
-            
             modelBuilder.Entity<Issue>().HasOne(i => i.Project);
             modelBuilder.Entity<HUApprovalStatus>().HasKey(us => us.HUApprovalStatusId);
             modelBuilder.Entity<HUPublicationStatus>().HasKey(us => us.HUPublicationStatusId);
             modelBuilder.Entity<HUStatus>().HasKey(us => us.HUStatusId);
             modelBuilder.Entity<DocTraceabilityType>().HasKey(us => us.DocTraceabilityTypeId);
             modelBuilder.Entity<SourceDocTraceability>().HasKey(us => us.SorceId);
+            modelBuilder.Entity<LearnMoreComments>().HasKey(p => p.Id);
+
+            modelBuilder.Entity<LearnMoreComments>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<LearnMoreComments>()
+                .Property(p => p.CreationDate)
+                .HasDefaultValueSql("GETDATE()");
+
             DisableCascadingDelete(modelBuilder);
         }
 
@@ -120,6 +124,7 @@ namespace SEGES.Backend
             }
         }
 
+        public DbSet<LearnMoreComments> LearnMoreComments { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }

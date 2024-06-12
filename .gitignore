@@ -368,3 +368,18 @@ FodyWeavers.xsd
 /SEGES.FrontEnd/Program.cs
 /SEGES.Backend/appsettings.Development.json
 /SEGES.Backend/Data/CountriesStatesCities.sql
+<<<<<<< HEAD
+/SEGES.FrontEnd/Client/Program.cs
+/SEGES.Backend/appsettings.json
+/SEGES.Backend/Data/CountriesStatesCities.sql
+=======
+/SEGES.Backend/Program.cs
+/SEGES.Backend/Program.cs
+>>>>>>> f8e75969fb2f598debd19bd990ea3834ee5c9e7d
+/SEGES.Backend/Program.cs
+/SEGES.Backend/SEGES.Backend.csproj
+/SEGES.Backend/Data/CountriesStatesCities.sql
+/SEGES.Backend/Program.cs
+/SEGES.Backend/appsettings.json
+/SEGES.Backend/SEGES.Backend.csproj
+/SEGES.Backend/Properties/PublishProfiles/SEGESBackend - Web Deploy.pubxml

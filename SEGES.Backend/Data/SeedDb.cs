@@ -3,19 +3,24 @@ using SEGES.Shared.Entities;
 using Newtonsoft.Json;
 using SEGES.Shared.Enums;
 using SEGES.Backend.UnitsOfWork.Interfaces;
-
+using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.InteropServices;
+using SEGES.Backend.Helpers;
 
 namespace SEGES.Backend
 {
     public class SeedDb
     {
         private readonly DataContext _context;
+        private readonly IFileStorage _fileStorage;
 
         private readonly IUsersUnitOfWork _usersUnitOfWork;
+
         public SeedDb(DataContext context, IUsersUnitOfWork usersUnitOfWork)
         {
             _context = context;
             _usersUnitOfWork = usersUnitOfWork;
+
         }
 
         public string statusNameList = @"[
@@ -36,12 +41,12 @@ namespace SEGES.Backend
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckCountriesFullAsync();
+            //await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckStatesAsync();
             await CheckCitiesAsync();
             await CheckRolesAsync();
-            await CheckUserAsync("1010", "admin", "prueba", "admin@yopmail.com", "555555", "direcion prueba", UserType.Admin);
+            await CheckUserAsync("1010", "admin", "prueba", "correopruebaisaura@gmail.com", "555555", "direcion prueba", UserType.Admin);
             await CheckDocTraceabilityType();
             await CheckHUApprobalStatus();
             await CheckHUPriority();
@@ -59,6 +64,7 @@ namespace SEGES.Backend
             await _usersUnitOfWork.CheckRoleAsync(UserType.ProjectManager.ToString());
             await _usersUnitOfWork.CheckRoleAsync(UserType.StakeHolder.ToString());
         }
+
         private async Task<UserApp> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, UserType userType)
         {
             var user = await _usersUnitOfWork.GetUserAsync(email);
@@ -99,6 +105,7 @@ namespace SEGES.Backend
                 await _context.Database.ExecuteSqlRawAsync(countriesStatesCitiesSQLScript);
             }
         }
+
         /*
         private async Task CheckRoles()
         {
@@ -125,6 +132,7 @@ namespace SEGES.Backend
             }
         }
         */
+
         private async Task CheckProjectStatus()
         {
             if (!_context.ProjectStatuses.Any())
